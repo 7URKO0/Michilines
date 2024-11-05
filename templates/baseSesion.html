@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    {%block estilo%} {% endblock %} <!-- meterle flask-->
+    {%block estilo%} {% endblock %}
 </head>
 
-
 <body>
-
-{% block nombrequesemecante %} 
+{% block formulario %} 
 {% endblock %}
 
 <div class="formulario">
@@ -24,12 +21,14 @@
 </div>
 
 {% block confirmarContrasenia %} {% endblock %}
+
 <button type="submit">{% block boton %} {% endblock %}</button>
 </form>
 
-{% block iniciarSesion%} {% endblock %}
-{% block registrarse%} {% endblock %}
-
+{% block enlaces %}
+    {% block registrarse %} {% endblock %}
+    {% block iniciarSesion %} {% endblock %}
+{% endblock %}
     
 </body>
 </html> 

@@ -1,22 +1,29 @@
-{% extends 'base.html'%}
-{%block estilo%} <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesRegistro.css') }}"> {% endblock %}
-    {% block nombrequesemecante %} 
+{% extends 'baseSesion.html'%}
+
+{%block estilo%} 
+<title>Registro</title>
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesRegistro.css') }}"> 
+{% endblock %}
+
+    {% block formulario %} 
     <div class="registroContenedor">
 
         <form id="registroFormulario">
     {% endblock %}
  
+
     {% block confirmarContrasenia %}
             <div class="formulario">
                 <label for="confirmarContraseña">Confirmar contraseña</label>
                 <input type="contraseña" id="confirmarContraseña" name="confirmarContraseña" required>
             </div>
-            {% endblock %}
+    {% endblock %}
 
             
             <button type="submit">{% block boton %} Registrarse {% endblock %}</button>
-            
-            {% block iniciarSesion%} 
+        
+
+    {% block iniciarSesion%}
         <div class="iniciarSesion">
             ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesion</a> <!-- meterle flask-->
         </div>

@@ -1,19 +1,21 @@
-{% extends 'base.html'%}
-{%block estilo%} <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesInicioSesion.css') }}"> {% endblock %}
-{% block nombrequesemecante %} 
+{% extends 'baseSesion.html'%}
+
+{%block estilo%} 
+<title>Iniciar Sesion</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInicioSesion.css') }}">
+{% endblock %}
+
+    {% block formulario %} 
     <div class="inicioSesionContenedor">
 
         <form id="inicioSesionFormulario">
-{% endblock %}
-            <button type="submit">{% block boton %} Iniciar Sesion{% endblock %}</button>
-
-            {% block registrarse%}      
-        <div class="registrarse">
-            ¿No tenes una cuenta? <a href="{{ url_for('registrarse') }}">Registrate</a> <!--agregar link a registro con flask-->
-        </div>
-        
-    </div>
-
-    <script src="{{ url_for('static', filename = 'js/scriptInicioSesion.js') }}"></script> <!--agregar link a script.js de flask-->
     {% endblock %}
-    
+
+            <button type="submit">{% block boton %} Iniciar Sesion {% endblock %}</button>
+            
+        {% block registrarse%} 
+        <div class="registrarse">
+            ¿No tenes una cuenta? <a href="{{ url_for('registrarse') }}">Registrate</a>
+        </div>
+
+     <script src="{{ url_for('static', filename='js/scriptInicioSesion.js') }}"></script>{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'baseFormulario.html' %}
+
+{% block estilo %} 
+    <title>Publicar Mascota Perdida</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesPublicarMascota.css') }}">
+{% endblock %}
+
+{% block contenido %}
+    <div class="contenedor">
+        <form id="formularioMascotaPerdida" enctype="multipart/form-data"> 
+
+
+
+            <div class="formulario">
+                <label for="nombreMascota">Nombre de la Mascota:</label>
+                <input type="text" class="Nombre" id="nombreMascota" required>
+            </div>
+
+            <div class="formulario">
+                <label for="edadMascota">Edad de la Mascota:</label>
+                <input type="number" class="Edad" id="edadMascota" min="1" required>
+            </div>
+
+            <div class="formulario">
+                <label for="foto">Foto de la mascota:</label>
+                <input type="file" class="Foto" id="foto" accept="image/*">
+            </div>
+
+            <div class="formulario">
+
+                <label for="especie">Especie:</label>
+
+                <select class="formulario" id="especie" required>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="aaa">aaa</option>
+                    <option value="bbb">bbb</option>
+                    <option value="ccc">ccc</option>
+                </select>
+            </div>
+
+            <div class="formulario">
+
+                <label for="condicion">Condicion:</label>
+
+                <select class="formulario" id="condicion" required>
+                    <option value="Perdido">Perdido</option>
+                    <option value="Casa transitoria">Casa transitoria</option>
+                    <option value="Encontrado">Encontrado</option>
+                </select>
+            </div>
+
+            <!-- no se que caracteristicas agregar--> 
+
+            <div class="formulario">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="Descripcion" id="descripcion" rows="3" required></textarea>
+            </div>
+
+            <div class="formulario">
+                <label for="fechaPerdida">Fecha de perdida:</label>
+                <input type="date" class="Fecha" id="fechaPerdida" required>
+            </div>
+
+            <div class="formulario">
+                <label for="ubicacion">ultima ubicación vista: (mapa tal vez?????)</label>
+                <!-- ver tema del mapa-->
+            </div>
+
+            <button type="submit" class="publicar">Publicar</button>
+
+        </form> 
+    </div>
+{% endblock %}
