@@ -1,43 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link rel="stylesheet" href="stylesRegistro.css"> <!-- meterle flask-->
-</head>
-
-<body>
-
+{% extends 'base.html'%}
+{%block estilo%} <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesRegistro.css') }}"> {% endblock %}
+    {% block nombrequesemecante %} 
     <div class="registroContenedor">
 
         <form id="registroFormulario">
-
-            <div class="formulario">
-                <label for="email">Correo electronico</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-
-            <div class="formulario">
-                <label for="contraseña">Contraseña</label>
-                <input type="contraseña" id="contraseña" name="contraseña" required>
-            </div>
-
+    {% endblock %}
+ 
+    {% block confirmarContrasenia %}
             <div class="formulario">
                 <label for="confirmarContraseña">Confirmar contraseña</label>
                 <input type="contraseña" id="confirmarContraseña" name="confirmarContraseña" required>
             </div>
+            {% endblock %}
 
-            <button type="submit">Registrarse</button>
-
-        </form>
-
+            
+            <button type="submit">{% block boton %} Registrarse {% endblock %}</button>
+            
+            {% block iniciarSesion%} 
         <div class="iniciarSesion">
-            ¿Ya tenes una cuenta? <a href="iniciarSesion.html">Iniciar Sesion</a> <!-- meterle flask-->
+            ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesion</a> <!-- meterle flask-->
         </div>
+        
     </div>
-    <script src="scriptRegistro.js"></script> <!-- meter flask-->
+    <script src="{{ url_for('static', filename = 'js/scriptRegistro.js') }}"></script> <!-- meter flask-->
+    {% endblock %}
 
-</body>
-
-</html>
