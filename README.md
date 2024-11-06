@@ -6,4 +6,3 @@
   
   ### Herramienta para la app de celu: https://kivy.org
   
-  ### Integrantes:  , , , , , , Ignacio Cettour
