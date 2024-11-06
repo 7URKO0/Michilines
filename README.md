@@ -6,4 +6,3 @@
   
   ### Herramienta para la app de celu: https://kivy.org
   
-  ### Integrantes: Camila Pratto, Camila Anahi Wilverht Rohr, Francisca Gaillard, Ignacio Cettour, Lara Ovejero, Matias Rigano, Victor Oliva 
