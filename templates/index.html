@@ -34,7 +34,6 @@
 </head>
 
 <body>
-  <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
       <div class="container-fluid">
@@ -57,10 +56,16 @@
                   <a class="nav-link" href="{{url_for('index')}}">inicio <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('galeria')}}">Galeria de Mascotas </a>
+                  <a class="nav-link" href="{{url_for('galeria')}}">Mascotas </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('publicarMascotas')}}">publicar mascota perdida </a>
+                </li>
+                <li class="nav-item"></li>
+                  <a class="nav-link" href="{{url_for('iniciarSesion')}}">Iniciar Sesion </a>
+                </li>
+                <li class="nav-item"></li>
+                  <a class="nav-link" href="{{url_for('registrarse')}}">Registrarse </a>
                 </li>
               </ul>
               <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
@@ -77,6 +82,7 @@
       </div>
     </header>
     <!-- end header section -->
+
     <!-- slider section, cantidad de sliders -->
     <section class=" slider_section position-relative">
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -84,7 +90,6 @@
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -126,23 +131,19 @@
                 <div class="col-md-4 offset-md-2">
                   <div class="slider_detail-box">
                     <h1>
-                      Professional
+                      Nuestra Galeria de
                       <span>
-                        Care Your Pet
+                        Mascotas
                       </span>
                     </h1>
                     <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                      Lorem Ipsum has been the industry's standard dummy text ever
+                      Aqui podras ver todas las mascotas que han sido publicadas
                     </p>
                     <div class="btn-box">
-                      <a href="" class="btn-1">
-                        Buy now
+                      <a href="{{url_for('galeria')}}" class="btn-1">
+                        Galeria
                       </a>
-                      <a href="" class="btn-2">
-                        Contact
-                      </a>
+                      
                     </div>
                   </div>
                 </div>
@@ -160,22 +161,17 @@
                 <div class="col-md-4 offset-md-2">
                   <div class="slider_detail-box">
                     <h1>
-                      Professional
+                      Nuestro Equipo
                       <span>
-                        Care Your Pet
+                        Integrantes
                       </span>
                     </h1>
                     <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                      Lorem Ipsum has been the industry's standard dummy text ever
+                      Este es el equipo que trabaja arduo y duro para que puedas encontrarte con tu querido amiguito
                     </p>
                     <div class="btn-box">
-                      <a href="" class="btn-1">
-                        Buy now
-                      </a>
-                      <a href="" class="btn-2">
-                        Contact
+                      <a href="{{url_for('integrantes')}}" class="btn-1">
+                        Integrantes
                       </a>
                     </div>
                   </div>
@@ -188,46 +184,8 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-4 offset-md-2">
-                  <div class="slider_detail-box">
-                    <h1>
-                      Professional
-                      <span>
-                        Care Your Pet
-                      </span>
-                    </h1>
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                      Lorem Ipsum has been the industry's standard dummy text ever
-                    </p>
-                    <div class="btn-box">
-                      <a href="" class="btn-1">
-                        Buy now
-                      </a>
-                      <a href="" class="btn-2">
-                        Contact
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="slider_img-box">
-                    <img src="{{url_for('static', filename = 'imagenes/slider-img.png')}}" alt="">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
+</section>
     <!-- end slider section -->
-  </div>
 
   <!-- about section -->
 
@@ -329,21 +287,18 @@
           <div class="carousel-item">
             <div class="layout_padding2 pl-100">
               <div class="client_container ">
-                <div class="img_box">
-                  <img src="{{url_for('static', filename = 'imagenes/client.jpg')}}" alt="">
+                <div class="img_box_mascotas">
+                  <img src="{{url_for('static', filename = 'imagenes/persona7.png')}}" alt="">
                 </div>
                 <div class="detail_box">
                   <h5>
                     Sandy Mark
                   </h5>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea
-                    commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                    Sandy encontro un gatito con collar que decia Pimpe, el problema es que no se veia muy bien el numero.
+                    Por lo que, desesperada por encontrar a su familia decidio ingresar a la mascota en la pagina como
+                    <span>transito</span> y luego de unos dias, Florencia pudo encontrar a su gatito Pimpe con la ayuda de Sandy
+                    y esta pagina
                   </p>
                 </div>
               </div>
@@ -352,21 +307,18 @@
           <div class="carousel-item">
             <div class="layout_padding2 pl-100">
               <div class="client_container ">
-                <div class="img_box">
-                  <img src="{{url_for('static', filename = 'imagenes/client.jpg')}}" alt="">
+                <div class="img_box_mascotas">
+                  <img src="{{url_for('static', filename = 'imagenes/Cheems.jpg')}}" alt="">
                 </div>
                 <div class="detail_box">
                   <h5>
-                    Sandy Mark
+                    Marcos Olivera
                   </h5>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea
-                    commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                    Marcos estuvo buscando a su Loro que no dejaba de decir "Marcos, donde estas Marcos?", entonces Claudia,
+                    amante de las aves, noto este Loro en una plaza e inmediatamente se puso a buscar a su familia. Como no tuvo 
+                    suerte preguntando a los vecinos, se le ocurrio publicarlo como <span>transito</span> y al fin encontro a Marcos,
+                    quien habia publicado que perdio su Loro en los comentarios de su publicacion.
                   </p>
                 </div>
               </div>

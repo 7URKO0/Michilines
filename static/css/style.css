@@ -32,7 +32,7 @@ body {
   color: #030404;
 }
 
-.custom_heading_{
+.custom_heading_encontradas{
   color: #030404;
   padding: 50px;
 }
@@ -67,15 +67,20 @@ body {
 .header_section {
   background-color: #f6f8f7;
   padding-top: 15px;
+
 }
 
 .header_section .container-fluid {
-  padding-right: 25px;
-  padding-left: 25px;
+  display: flex; /* Organiza los elementos en fila */
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Alinea los elementos verticalmente */
+  gap: 20px; /* Ajusta el espacio entre los elementos */
 }
 
 .header_section .nav_container {
-  margin: 0 auto;
+  margin: 0; /* Elimina márgenes adicionales */
+  padding: 0 10px; /* Ajusta el padding para un espaciado controlado */
+  font-size: 16px; /* Ajusta el tamaño de fuente según el diseño */
 }
 
 .header_section .quote_btn-container a {
@@ -84,11 +89,11 @@ body {
 }
 
 .custom_nav-container.navbar-expand-lg .navbar-nav .nav-link {
-  padding:10px 60px;
   color: #434242;
   text-align: center;
   text-transform: uppercase;
-  font-size: large;
+  padding: 0 35px; /* Ajusta el padding para un espaciado controlado */
+  font-size: 20px; /* Ajusta el tamaño de fuente según el diseño */
 }
 
 a,
@@ -407,9 +412,18 @@ a:focus {
   padding: 30px 0;
 }
 
+.img_box_mascotas{
+  display: flex;
+  justify-content: flex-start; /* Alinea las imágenes a la izquierda */
+  width: 50%; /* Cambia el tamaño de la imagen al 50% de su tamaño original */
+  max-width: 200px; /* Ajusta el ancho máximo para no exceder un tamaño específico */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
 .client_section .client_container .img_box {
   width: 200px;
   margin-left: -100px;
+
 }
 
 .client_section .client_container .img_box img {
@@ -428,10 +442,6 @@ a:focus {
   background-color: #8c8a8a;
 }
 
-.map_section {
-  position: relative;
-}
-
 #map {
   width: 70%;
   height: 500px;
@@ -439,51 +449,6 @@ a:focus {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin: 20px auto;
   
-}
-
-.map_section {
-  position: absolute;
-}
-
-.map_section .form_container {
-  position: relative;
-  width: 50%;
-  z-index: 9;
-}
-
-.map_section .form_container form {
-  background-color: rgba(255, 255, 255, 0.98);
-  padding: 45px;
-  margin: 75px ;
-}
-
-.map_section .form_container input {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  border-bottom: 1px solid #111111;
-  padding-top: 35px;
-  width: 100%;
-}
-
-.map_section .form_container input.message-box {
-  padding-top: 55px;
-}
-
-.map_section .form_container button {
-  display: inline-block;
-  padding: 12px 20px;
-  background-color: #023b48;
-  border: 1px solid #023b48;
-  color: #ffffff;
-  border-radius: 30px;
-  width: 100%;
-  margin-top: 35px;
-}
-
-.map_section .form_container button:hover {
-  background-color: transparent;
-  color: #023b48;
 }
 
 .info_section {
