@@ -24,7 +24,20 @@ mascotas = {
         'edad': '2 años',
         'raza': 'Siamesa'
     },
-    # Agrega más entradas según lo necesites
+    4: {
+        'nombre': 'copito',
+        'descripcion': 'conejo amigable y dienton',
+        'imagenUrl': 'imagenes/copito.jpg',
+        'edad': '5 meses',
+        'raza': 'conejo'
+    },
+    5: {
+        'nombre': 'franklin',
+        'descripcion': 'tortuga timida e incomprendida',
+        'imagenUrl': 'imagenes/copitofranklin.jpg',
+        'edad': '15 años',
+        'raza': 'tortuga'
+    },  
 }
 
 
