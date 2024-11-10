@@ -11,12 +11,17 @@ perfil-contenedor {
     width: 100%;
     height: auto;
     border-radius: 8px;
+    color: #5ddada;
+    border-color: rgb(0, 183, 255);
 }
 
 .informacion {
     flex: 2;
+    height: auto;
+
 }
 
 .comentarios {
     margin-top: 2rem;
+    height: auto;
 }
