@@ -18,9 +18,14 @@ def galeria():
 def iniciarSesion():
     return render_template("iniciarSesion.html")
 
-@app.route('/perfilMascota')
-def perfilMascota():
-    return render_template("perfilMascota.html")
+@app.route('/perfil_mascota/<int:id>')
+def perfil_mascota(id):
+    mascota = obtener_mascota_por_id(id)
+    if mascota:
+        return render_template('perfilmascota.html', mascota=mascota)
+    else:
+        abort(404)
+
 
 @app.route('/publicarMascotas')
 def publicarMascotas():
