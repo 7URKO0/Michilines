@@ -1,0 +1,22 @@
+perfil-contenedor {
+    display: flex;
+    gap: 2rem;
+}
+
+.imagen {
+    flex: 1;
+}
+
+.imagen img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.informacion {
+    flex: 2;
+}
+
+.comentarios {
+    margin-top: 2rem;
+}

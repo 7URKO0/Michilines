@@ -45,7 +45,7 @@ mascotas = {
         'edad': '6 años',
         'raza': 'Border Collie'
     },  
-    5: {
+    7: {
         'nombre': 'Mara',
         'descripcion': 'Perra tranquila',
         'imagenUrl': 'imagenes/Mara.jpg',
