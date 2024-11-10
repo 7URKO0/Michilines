@@ -5,12 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de {{ mascota['nombre'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesPublicarMascota.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='perfilMascota.css') }}">
 </head>
 <body>
-    <h1>{{ mascota['nombre'] }}</h1>
-    <img src="{{ url_for('static', filename=mascota['imagenUrl']) }}" alt="Imagen de {{ mascota['nombre'] }}" style="width: 300px; height: auto;">
-    <p>{{ mascota['descripcion'] }}</p>
-    <p>Edad: {{ mascota['edad'] }}</p>
-    <p>Raza: {{ mascota['raza'] }}</p>
+    <div class="contenedor">
+        <div class="perfil-contenedor">
+            <div class="imagen">
+                <img src="{{ url_for('static', filename=mascota['imagenUrl']) }}" alt="Imagen de {{ mascota['nombre'] }}">
+            </div>
+            <div class="informacion">
+                <h1>{{ mascota['nombre'] }}</h1>
+                <p>{{ mascota['descripcion'] }}</p>
+                <p><strong>Edad:</strong> {{ mascota['edad'] }}</p>
+                <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
+            </div>
+        </div>
+        
+        <div class="comentarios">
+            <form class="formulario" action="/comentar" method="post">
+                <label for="comentario">Deja un comentario:</label>
+                <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario..."></textarea>
+                <button type="submit" class="publicar">Enviar comentario</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
