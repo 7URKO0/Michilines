@@ -2,6 +2,32 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app=Flask(__name__)
 
+mascotas = {
+    1: {
+        'nombre': 'Cheems',
+        'descripcion': 'Mascota simpática y amigable',
+        'imagenUrl': 'imagenes/Cheems.jpg',
+        'edad': '3 años',
+        'raza': 'Shiba Inu'
+    },
+    2: {
+        'nombre': 'Bobby',
+        'descripcion': 'Perro enérgico y leal',
+        'imagenUrl': 'imagenes/Bobby.jpg',
+        'edad': '5 años',
+        'raza': 'Golden Retriever'
+    },
+    3: {
+        'nombre': 'Luna',
+        'descripcion': 'Gatita juguetona y cariñosa',
+        'imagenUrl': 'imagenes/Luna.jpg',
+        'edad': '2 años',
+        'raza': 'Siamesa'
+    },
+    # Agrega más entradas según lo necesites
+}
+
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -18,9 +44,9 @@ def galeria():
 def iniciarSesion():
     return render_template("iniciarSesion.html")
 
-@app.route('/perfil_mascota/<int:id>')
-def perfil_mascota(id):
-    mascota = obtener_mascota_por_id(id)
+@app.route('/perfil/<int:id>')
+def perfilMascota(id):
+    mascota = mascotas.get(id)
     if mascota:
         return render_template('perfilmascota.html', mascota=mascota)
     else:
