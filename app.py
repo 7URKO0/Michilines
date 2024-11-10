@@ -38,6 +38,20 @@ mascotas = {
         'edad': '15 años',
         'raza': 'tortuga'
     },  
+    6: {
+        'nombre': 'Tomi',
+        'descripcion': 'Perro jugueton',
+        'imagenUrl': 'imagenes/Tomi.jpg',
+        'edad': '6 años',
+        'raza': 'Border Collie'
+    },  
+    5: {
+        'nombre': 'Mara',
+        'descripcion': 'Perra tranquila',
+        'imagenUrl': 'imagenes/Mara.jpg',
+        'edad': '4 años',
+        'raza': 'Pug'
+    },  
 }
 
 
