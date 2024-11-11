@@ -36,7 +36,7 @@ mascotas = {
     4: {
         'nombre': 'copito',
         'descripcion': 'conejo amigable y dienton',
-        'imagenUrl': 'imagenes/Copito.jpg',
+        'imagenUrl': 'imagenes/copito.jpg',
         'edad': '5 meses',
         'raza': 'conejo',
         'zona': 'Once',
@@ -46,7 +46,7 @@ mascotas = {
     5: {
         'nombre': 'franklin',
         'descripcion': 'tortuga timida e incomprendida',
-        'imagenUrl': 'imagenes/Franklin.jpg',
+        'imagenUrl': 'imagenes/franklin.jpg',
         'edad': '15 años',
         'raza': 'tortuga',
         'zona': 'Tigre',
