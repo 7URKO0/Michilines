@@ -4,13 +4,13 @@ app=Flask(__name__)
 
 mascotas = {
     1: {
-        'nombre': 'Cheems',
-        'descripcion': 'Mascota simpática y amigable',
-        'imagenUrl': 'imagenes/Cheems.jpg',
-        'edad': '3 años',
-        'raza': 'Shiba Inu',
-        'zona': 'Belgrano',
-        'estado':'Transito',
+        'nombre': 'Tomi',
+        'descripcion': 'Perro jugueton',
+        'imagenUrl': 'imagenes/Tomi.jpg',
+        'edad': '6 años',
+        'raza': 'Border Collie',
+        'zona': 'Palermo',
+        'estado': 'Transito',
         'comentarios': []
     },
     2: {
@@ -55,13 +55,13 @@ mascotas = {
 
     },  
     6: {
-        'nombre': 'Tomi',
-        'descripcion': 'Perro jugueton',
-        'imagenUrl': 'imagenes/Tomi.jpg',
-        'edad': '6 años',
-        'raza': 'Border Collie',
-        'zona': 'Palermo',
-        'estado': 'Transito',
+        'nombre': 'Cheems',
+        'descripcion': 'Mascota simpática y amigable',
+        'imagenUrl': 'imagenes/Cheems.jpg',
+        'edad': '3 años',
+        'raza': 'Shiba Inu',
+        'zona': 'Belgrano',
+        'estado':'Transito',
         'comentarios': []
     },  
     7: {
