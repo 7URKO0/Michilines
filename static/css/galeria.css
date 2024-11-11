@@ -20,14 +20,13 @@
   flex: 0 0 30%;
   margin: 10px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
   
 .img_box img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-  background-color: #ffffff;
+  height: 200px; 
+  overflow: hidden;
 }
   
 .detail_box {
