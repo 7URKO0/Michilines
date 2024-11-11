@@ -10,7 +10,7 @@ mascotas = {
         'edad': '3 años',
         'raza': 'Shiba Inu',
         'zona': 'Belgrano',
-        'estado':'transito',
+        'estado':'Transito',
     },
     2: {
         'nombre': 'Bobby',
@@ -19,7 +19,7 @@ mascotas = {
         'edad': '5 años',
         'raza': 'Golden Retriever',
         'zona': 'Villa crespo',
-        'estado':'encontrado',
+        'estado':'Encontrado',
     },
     3: {
         'nombre': 'Luna',
@@ -28,7 +28,7 @@ mascotas = {
         'edad': '2 años',
         'raza': 'Siamesa',
         'zona': 'Villa Urquiza',
-        'estado': 'perdido',
+        'estado': 'Perdido',
     },
     4: {
         'nombre': 'copito',
@@ -37,7 +37,7 @@ mascotas = {
         'edad': '5 meses',
         'raza': 'conejo',
         'zona': 'Once',
-        'estado':'encontrado',
+        'estado':'Encontrado',
     },
     5: {
         'nombre': 'franklin',
@@ -46,7 +46,7 @@ mascotas = {
         'edad': '15 años',
         'raza': 'tortuga',
         'zona': 'Tigre',
-        'estado':'perdido',
+        'estado':'Perdido',
 
     },  
     6: {
@@ -56,7 +56,7 @@ mascotas = {
         'edad': '6 años',
         'raza': 'Border Collie',
         'zona': 'Palermo',
-        'estado': 'transito',
+        'estado': 'Transito',
     },  
     7: {
         'nombre': 'Mara',
@@ -65,7 +65,7 @@ mascotas = {
         'edad': '4 años',
         'raza': 'Pug',
         'zona': 'Recoleta',
-        'estado': 'perdido',
+        'estado': 'Perdido',
     },  
 }
 
