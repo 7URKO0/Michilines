@@ -42,7 +42,7 @@ mascotas = {
     5: {
         'nombre': 'franklin',
         'descripcion': 'tortuga timida e incomprendida',
-        'imagenUrl': 'imagenes/copitofranklin.jpg',
+        'imagenUrl': 'imagenes/franklin.jpg',
         'edad': '15 años',
         'raza': 'tortuga',
         'zona': 'Tigre',
