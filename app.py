@@ -72,7 +72,8 @@ def base():
 
 @app.route('/galeria')
 def galeria():
-    return render_template("galeria.html")
+    return render_template("galeria.html", mascotas=mascotas)
+
 
 @app.route('/iniciarSesion')
 def iniciarSesion():
