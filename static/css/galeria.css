@@ -24,7 +24,7 @@
   flex-direction: column;
 }
   
-.img_box img {
+.img_box img { 
   height: 200px; 
   overflow: hidden;
 }
