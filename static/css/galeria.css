@@ -1,6 +1,6 @@
 .gallery-title {
   font-size: 36px;
-  color: #ffffff;
+  color: #000000;
   text-align: center;
   margin: 20px 0;
 }
@@ -60,7 +60,7 @@
 }
   
 .gallery-section {
-  background-color: #7debe5;
+  background-color: #eee;
 }
   
 .layout_padding {
