@@ -34,7 +34,7 @@
           <p>{{ mascota['descripcion'] }}</p>
           <p><strong>Edad:</strong> {{ mascota['edad'] }}</p>
           <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
-          <button class="btn btn-primary" onclick="verPerfil({{ id }})">Ver perfil</button>
+          <button class="btn btn-primary" onclick="window.location.href='{{ url_for('perfilMascota', id=id) }}'">Ver perfil</button>
         </div>
       </div>
       {% endfor %}

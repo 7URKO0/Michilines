@@ -11,6 +11,7 @@ mascotas = {
         'raza': 'Shiba Inu',
         'zona': 'Belgrano',
         'estado':'Transito',
+        'comentarios': []
     },
     2: {
         'nombre': 'Bobby',
@@ -20,6 +21,7 @@ mascotas = {
         'raza': 'Golden Retriever',
         'zona': 'Villa crespo',
         'estado':'Encontrado',
+        'comentarios': []
     },
     3: {
         'nombre': 'Luna',
@@ -29,6 +31,7 @@ mascotas = {
         'raza': 'Siamesa',
         'zona': 'Villa Urquiza',
         'estado': 'Perdido',
+        'comentarios': []
     },
     4: {
         'nombre': 'copito',
@@ -38,6 +41,7 @@ mascotas = {
         'raza': 'conejo',
         'zona': 'Once',
         'estado':'Encontrado',
+        'comentarios': []
     },
     5: {
         'nombre': 'franklin',
@@ -47,6 +51,7 @@ mascotas = {
         'raza': 'tortuga',
         'zona': 'Tigre',
         'estado':'Perdido',
+        'comentarios': []
 
     },  
     6: {
@@ -57,6 +62,7 @@ mascotas = {
         'raza': 'Border Collie',
         'zona': 'Palermo',
         'estado': 'Transito',
+        'comentarios': []
     },  
     7: {
         'nombre': 'Mara',
@@ -66,6 +72,7 @@ mascotas = {
         'raza': 'Pug',
         'zona': 'Recoleta',
         'estado': 'Perdido',
+        'comentarios': []
     },  
 }
 
@@ -87,13 +94,19 @@ def galeria():
 def iniciarSesion():
     return render_template("iniciarSesion.html")
 
-@app.route('/perfil/<int:id>')
+@app.route('/perfil/<int:id>', methods=['GET', 'POST'])
 def perfilMascota(id):
     mascota = mascotas.get(id)
-    if mascota:
-        return render_template('perfilmascota.html', mascota=mascota)
-    else:
+    if not mascota:
         abort(404)
+    if request.method == 'POST':
+        comentario = request.form.get('comentario')
+        if comentario:
+            mascota['comentarios'].append(comentario)  
+        return redirect(url_for('perfilMascota', id=id)) 
+
+    return render_template('perfilmascota.html', mascota=mascota, id=id)
+
 
 
 @app.route('/publicarMascotas')

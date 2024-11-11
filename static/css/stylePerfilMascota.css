@@ -53,9 +53,16 @@ perfil-contenedor {
     margin-top: 2rem;
 }
 
+.comentario {
+    background-color: #f1f1f1;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
 .formulario {
     background-color: #f9f9f9;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 8px;
 }
 

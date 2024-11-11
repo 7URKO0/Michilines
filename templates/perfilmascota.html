@@ -2,11 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de {{ mascota['nombre'] }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesPublicarMascota.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfilMascota.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilMascota.css') }}">
 </head>
 <body>
     <div class="contenedor">
@@ -17,20 +15,22 @@
             <div class="informacion">
                 <h1>{{ mascota['nombre'] }}</h1>
                 <p>{{ mascota['descripcion'] }}</p>
-                <br>
                 <hr>
-                <br>
                 <p><strong>Edad:</strong> {{ mascota['edad'] }}</p>
-                <br>
                 <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
-                <br>
                 <p><strong>Zona:</strong> {{ mascota['zona'] }}</p>
-                <br>
             </div>
         </div>
-        
         <div class="comentarios">
-            <form class="formulario" action="/comentar" method="post">
+            <h2>Comentarios</h2>
+            {% for comentario in mascota['comentarios'] %}
+            <div class="comentario">
+                <p>{{ comentario }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="comentarios">
+            <form class="formulario" action="{{ url_for('perfilMascota', id=id) }}" method="post">
                 <label for="comentario">Deja un comentario:</label>
                 <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario..."></textarea>
                 <button type="submit" class="publicar">Enviar comentario</button>
