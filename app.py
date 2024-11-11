@@ -9,7 +9,8 @@ mascotas = {
         'imagenUrl': 'imagenes/Cheems.jpg',
         'edad': '3 años',
         'raza': 'Shiba Inu',
-        'zona': 'Belgrano'
+        'zona': 'Belgrano',
+        'estado':'transito',
     },
     2: {
         'nombre': 'Bobby',
@@ -17,7 +18,8 @@ mascotas = {
         'imagenUrl': 'imagenes/Bobby.jpg',
         'edad': '5 años',
         'raza': 'Golden Retriever',
-        'zona': 'Villa crespo'
+        'zona': 'Villa crespo',
+        'estado':'encontrado',
     },
     3: {
         'nombre': 'Luna',
@@ -25,7 +27,8 @@ mascotas = {
         'imagenUrl': 'imagenes/Luna.jpg',
         'edad': '2 años',
         'raza': 'Siamesa',
-        'zona': 'Villa Urquiza'
+        'zona': 'Villa Urquiza',
+        'estado': 'perdido',
     },
     4: {
         'nombre': 'copito',
@@ -33,7 +36,8 @@ mascotas = {
         'imagenUrl': 'imagenes/copito.jpg',
         'edad': '5 meses',
         'raza': 'conejo',
-        'zona': 'Once'
+        'zona': 'Once',
+        'estado':'encontrado',
     },
     5: {
         'nombre': 'franklin',
@@ -41,7 +45,9 @@ mascotas = {
         'imagenUrl': 'imagenes/copitofranklin.jpg',
         'edad': '15 años',
         'raza': 'tortuga',
-        'zona': 'Tigre'
+        'zona': 'Tigre',
+        'estado':'perdido',
+
     },  
     6: {
         'nombre': 'Tomi',
@@ -49,7 +55,8 @@ mascotas = {
         'imagenUrl': 'imagenes/Tomi.jpg',
         'edad': '6 años',
         'raza': 'Border Collie',
-        'zona': 'Palermo'
+        'zona': 'Palermo',
+        'estado': 'transito',
     },  
     7: {
         'nombre': 'Mara',
@@ -57,7 +64,8 @@ mascotas = {
         'imagenUrl': 'imagenes/Mara.jpg',
         'edad': '4 años',
         'raza': 'Pug',
-        'zona': 'Recoleta'
+        'zona': 'Recoleta',
+        'estado': 'perdido',
     },  
 }
 
