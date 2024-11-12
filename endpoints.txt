@@ -27,3 +27,36 @@ Endpoints/Servicios:
 13. delete/api/v1/mascotas/{id_mascota}{correo} -> elimina la publicacion de la mascota de su api
 14. delete/api/v1/usuarios/{correo}{contrasenia1} -> elimina el usuario de su api
 15. delete/api/v1/comentarios/{id_mascota}{correo}{id_comentario} -> el usuario duenio del post elimina un comentario
+
+#########################################################################################################################################################
+
+1. get/api/v1/usuarios -> recupera una lista/diccionario de usuarios (con sus contranias, correos). se puede usar para validar usuarios y contrasenias
+2. get/api/v1/mascotas/{id_mascota} -> recupera una mascota{id}     {[id_mascota],[raza],[color],[ubicacion],[nombre],[estado],[correo]}
+
+
+3. get/api/v1/mascotas?raza={raza}&color={color}&ubicacion={ubicacion}&nombre={nombre}&estado={estado}
+
+
+
+4.2 get/api/v1/mascotas/{id_mascota}/comentarios/{id_comentario} -> devuelve un solo comentario
+4.3 get/api/v1/mascotas/{id_mascota}/comentarios -> recupera una lista/diccionario de todos los comentarios en esa publicacion(mascota)
+
+5. post/api/v1/mascotas
+	{raza}..{color}..{ubicacion}..{nombre}..{estado} {correo} -> crea los recursos de la api que usamos en el get
+6. post/api/v1/usuarios
+	{correo}{contrasenia1}{contrasenia2} -> crea una cuenta y la guarda en la api de usuarios
+7. post/api/v1/mascotas/{id_mascota}/comentarios -> crea un nuevo comentario y notifica a la cuenta propietaria
+
+8. put/api/v1/mascotas/{id_mascota}
+	{correo} -> actualiza la informacion de la mascota (solo si el correo coincide con el original)
+9. put/api/v1/usuarios
+	{corre}{contrasenia1} {contrasenia2} -> actualiza la contrasenia del usuario si sos duenio
+
+10. delete/api/v1/mascotas/{id_mascota}
+	{correo} /{contrasenia1}(opcional) -> elimina la publicacion de la mascota de su api
+
+11. delete/api/v1/usuarios
+	{correo}{contrasenia1} -> elimina el usuario de su api
+
+12. delete/api/v1/mascotas/{id_mascota}/comentarios/{id_comentario}
+	{correo} /{contrasenia1}(opcional) -> el usuario duenio del post elimina un comentario
