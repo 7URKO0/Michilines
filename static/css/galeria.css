@@ -87,17 +87,3 @@
     margin: 10px 0; 
   }
   
-  .detail_box button {
-    background-color: #364552; 
-    color: #ffffff; 
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .detail_box button:hover {
-    background-color: #364552; 
-  }
-  
