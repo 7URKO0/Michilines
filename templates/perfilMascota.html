@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de {{ mascota['nombre'] }}</title>
+{% extends 'base.html'%}
+
+{% block titulo %} <title>Perfil de {{ mascota['nombre'] }}</title>{% endblock %}
+    
+    {% block estilo %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilMascota.css') }}">
+    {% endblock %}
 </head>
+
+{% block contenido %}
 <body>
+
     <div class="contenedor">
         <div class="perfil-contenedor">
             <div class="imagen">
@@ -37,5 +40,7 @@
             </form>
         </div>
     </div>
+    {% endblock %}
+    
 </body>
 </html>
