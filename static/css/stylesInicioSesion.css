@@ -1,16 +1,41 @@
+.header_section {
+    position:absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fafcfd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  }
+
+  /* Tamaño de fuente y estilo de los elementos de navegación */
+  .navbar-nav .nav-link {
+    white-space: nowrap; /* Evita que el texto se divida en varios renglones */
+  }
+  
+  .navbar-brand{
+    margin-right: -10px;
+  }
+
+  /* Espacio para evitar superposición con el contenido principal */
+  .main_content {
+    margin-top: 40px; /* Ajusta según la altura del header */
+  }
+
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    margin: 50px;
     background-color: #669cff;
 }
 
 .inicioSesionContenedor {
     background-color: white;
-    padding: 2rem;
+    padding: 22px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
