@@ -308,40 +308,17 @@
 
 
   <!-- end map section -->
-
-  
-  <!-- end info_section -->
-  {% block scripts %} 
-  <script>
-    // This example adds a marker to indicate the position of Bondi Beach in Sydney,
-    // Australia.
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11,
-        center: {
-          lat: 40.645037,
-          lng: -73.880224
-        },
-      });
-
-      var image = 'imagenes/maps-and-flags.png';
-      var beachMarker = new google.maps.Marker({
-        position: {
-          lat: 40.645037,
-          lng: -73.880224
-        },
-        map: map,
-        icon: image
-      });
-    }
-  </script>
+  <div id= "map">
+    {%block scripts%}  
+    <script src="{{url_for('static', filename = 'js/mapaUsar.js')}}"></script>
   <!-- google map js -->
   
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="{{url_for('static', filename = 'js/mapa.js')}}"></script>
-</script>
   <!-- end google map js -->
+  <!-- end info_section -->
   {% endblock %}
+</div>
 {% endblock %}
 </body>
 
