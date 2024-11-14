@@ -1,18 +1,50 @@
 
+.header_section {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fafcfd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px 0; /* Reduce el espacio vertical */
+  }
+
+  /* Ajuste del contenedor para centrar los elementos */
+  .custom_nav-container .navbar {
+    align-items: center;
+  }
+
+  /* Tamaño de fuente y estilo de los elementos de navegación */
+  .navbar-nav .nav-link {
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    padding: 0 10px; /* Reduce el espaciado horizontal */
+    white-space: nowrap; /* Evita que el texto se divida en varios renglones */
+  }
+  
+  .navbar-brand{
+    margin-right: -10px;
+  }
+
+  /* Espacio para evitar superposición con el contenido principal */
+  .main_content {
+    margin-top: 40px; /* Ajusta según la altura del header */
+
+  }
+
 body {
-    margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    margin: 70px;
     background-color: #669cff;
     font-family: Arial, sans-serif;
 }
 
 .registroContenedor {
     background-color: white;
-    padding: 40px;
+    padding: 22px;
     border-radius: 10px;
     width: 100%;
     max-width: 400px;
