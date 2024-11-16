@@ -43,8 +43,55 @@ def poblar_mascotas():
             "raza": "Siamesa",
             "zona": "Villa Urquiza",
             "estado": "Perdido"
+        },
+        {
+            'nombre': 'Bobby',
+            'descripcion': 'Perro enérgico y leal',
+            'imagenUrl': 'imagenes/Bobby.png',
+            'edad': '5 años',
+            'raza': 'Golden Retriever',
+            'zona': 'Villa crespo',
+            'estado':'Encontrado'
+        },
+        {
+            'nombre': 'copito',
+            'descripcion': 'conejo amigable y dienton',
+            'imagenUrl': 'imagenes/copito.png',
+            'edad': '5 meses',
+            'raza': 'conejo',
+            'zona': 'Once',
+            'estado':'Encontrado',
+        },
+        {
+            'nombre': 'franklin',
+            'descripcion': 'tortuga timida e incomprendida',
+            'imagenUrl': 'imagenes/franklin.jpg',
+            'edad': '15 años',
+            'raza': 'tortuga',
+            'zona': 'Tigre',
+            'estado':'Perdido',
+        },  
+        {
+            'nombre': 'Cheems',
+            'descripcion': 'Mascota simpática y amigable',
+            'imagenUrl': 'imagenes/Cheems.png',
+            'edad': '3 años',
+            'raza': 'Shiba Inu',
+            'zona': 'Belgrano',
+            'estado':'Transito'
+        },  
+        {
+            'nombre': 'Mara',
+            'descripcion': 'Perra tranquila',
+            'imagenUrl': 'imagenes/Mara.png',
+            'edad': '4 años',
+            'raza': 'Pug',
+            'zona': 'Recoleta',
+            'estado': 'Perdido'
         }
     ]
+
+    
     for m in mascotas:
         if not Mascota.query.filter_by(nombre=m["nombre"]).first():
             nueva_mascota = Mascota(**m)
