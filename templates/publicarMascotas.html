@@ -7,7 +7,7 @@
 
 {% block contenido %}
     <div class="contenedor">
-        <form id="formularioMascotaPerdida" enctype="multipart/form-data"> 
+        <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="{{ url_for('publicar_mascota') }}">
 
 
 

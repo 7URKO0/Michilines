@@ -8,7 +8,7 @@
     {% block formulario %} 
     <div class="registroContenedor">
 
-        <form id="registroFormulario">
+        <form id="registroFormulario" method="POST" action="{{ url_for('registrarse') }}">
     {% endblock %}
  
 
