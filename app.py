@@ -26,6 +26,13 @@ class Comentario(db.Model):
     contenido = db.Column(db.Text, nullable=False)
     mascota_id = db.Column(db.Integer, db.ForeignKey('mascota.id'), nullable=False)
     mascota = db.relationship('Mascota', backref='comentarios') 
+
+@api.route('/mascotas/<int:id>', methods=['DELETE'])
+def eliminar_mascota(id):
+    mascota = Mascota.query.get_or_404(id)
+    db.session.delete(mascota)
+    db.session.commit()
+    return jsonify({"mensaje": "Mascota eliminada exitosamente"}), 200
     
 with app.app_context():
     db.create_all()
