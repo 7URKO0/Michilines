@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+api = Blueprint('api', __name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:michilines_usuario@localhost/michilines'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -112,8 +113,6 @@ def poblar_mascotas():
     db.session.commit()
 
 poblar_mascotas()
-
-api = Blueprint('api', __name__)
 
 @api.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
