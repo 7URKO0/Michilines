@@ -20,6 +20,13 @@ class Mascota(db.Model):
     zona = db.Column(db.String(50), nullable=False)
     estado = db.Column(db.String(50), nullable=False)
     comentarios = db.Column(db.PickleType, default=[])
+    
+@api.route('/mascotas/<int:id>', methods=['DELETE'])
+def eliminar_mascota(id):
+    mascota = Mascota.query.get_or_404(id)
+    db.session.delete(mascota)
+    db.session.commit()
+    return jsonify({"mensaje": "Mascota eliminada exitosamente"}), 200
 
 with app.app_context():
     db.create_all()
