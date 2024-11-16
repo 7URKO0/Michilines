@@ -21,6 +21,12 @@ class Mascota(db.Model):
     estado = db.Column(db.String(50), nullable=False)
     comentarios = db.Column(db.PickleType, default=[])
 
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contenido = db.Column(db.Text, nullable=False)
+    mascota_id = db.Column(db.Integer, db.ForeignKey('mascota.id'), nullable=False)
+    mascota = db.relationship('Mascota', backref='comentarios') 
+    
 with app.app_context():
     db.create_all()
 
