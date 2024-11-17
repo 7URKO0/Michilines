@@ -29,13 +29,13 @@
     <div class="container">
       {% for id, mascota in mascotas.items() %}
       <div class="img_box box-4 gallery-item {{ mascota['estado'] }}">
-        <img src="{{ url_for('static', filename=mascota.get('imagen_url', 'default.png')) }}" alt="{{ mascota.get('nombre', 'Mascota') }}">
+        <img src="{{ url_for('static', filename=mascota['imagen_url']) }}" alt="{{ mascota.get('nombre', 'Mascota') }}">
         <div class="detail_box">
           <h6>{{ mascota['nombre'] }}</h6>
           <p>{{ mascota['descripcion'] }}</p>
           <p><strong>Edad:</strong> {{ mascota['edad'] }}</p>
           <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
-          <button class="btn btn-primary" onclick="window.location.href='{{ url_for('perfilMascota', id=id) }}'">Ver perfil</button>
+          <button class="btn btn-primary" onclick="window.location.href='{{ url_for('perfil_mascota', id=id) }}'">Ver perfil</button>
         </div>
       </div>
       {% endfor %}

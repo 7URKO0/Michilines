@@ -26,12 +26,14 @@
         </div>
         <div class="comentarios">
             <h2>Comentarios</h2>
-            {% for comentario in mascota['comentarios'] %}
+            {% for comentario in mascota.comentarios %}
             <div class="comentario">
-                <p>{{ comentario }}</p>
+                <p>{{ comentario.contenido }}</p>
             </div>
+            {% else %}
+            <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
             {% endfor %}
-        </div>
+        </div>        
         <div class="comentarios">
             <form class="formulario" action="{{ url_for('perfilMascota', id=id) }}" method="post">
                 <label for="comentario">Deja un comentario:</label>

@@ -1,34 +1,26 @@
-{% extends 'baseSesion.html'%}
+{% extends 'baseSesion.html' %}
 
-{%block estilo%} 
-<title>Registro</title>
-<link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesRegistro.css') }}"> 
+{% block estilo %} 
+    <title>Registro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesRegistro.css') }}"> 
 {% endblock %}
 
-    {% block formulario %} 
+{% block formulario %} 
     <div class="registroContenedor">
-
-        <form id="registroFormulario" method="POST" action="{{ url_for('registrarse') }}">
-    {% endblock %}
- 
-
-    {% block confirmarContrasenia %}
-            <div class="formulario">
-                <label for="confirmarContraseña">Confirmar contraseña</label>
-                <input type="contraseña" id="confirmarContraseña" name="confirmarContraseña" required>
+        <form method="POST" action="{{ url_for('registrarse') }}">
+            <div>
+                <label for="confirmarContraseña">Contraseña</label>
+                <input type="password" id="confirmarContraseña" name="confirmarContraseña" required>
             </div>
-    {% endblock %}
-
-            
-            <button type="submit">{% block boton %} Registrarse {% endblock %}</button>
-        
-
-    {% block iniciarSesion%}
-        <div class="iniciarSesion">
-            ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesion</a> <!-- meterle flask-->
-        </div>
-        
+            <button type="submit">Registrarse</button>
+        </form>
     </div>
-    <script src="{{ url_for('static', filename = 'js/scriptRegistro.js') }}"></script> <!-- meter flask-->
-    {% endblock %}
+{% endblock %}
 
+{% block iniciarSesion %}
+    <div class="iniciarSesion">
+        ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
+    </div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/scriptRegistro.js') }}"></script>
