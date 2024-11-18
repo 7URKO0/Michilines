@@ -1,10 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, request
-from apis.mascotas import mascotas_api
+from apis.mascotas import mascotas_api, obtener_conexion
 from apis.comentarios import comentarios_api
 from apis.usuarios import usuarios_api
 
 app = Flask(__name__)
 
+@app.route('/index')
 def index():
     #Esto creo que usando apis se puede evitar hardcodear
     datosIntegrantes = {

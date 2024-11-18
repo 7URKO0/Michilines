@@ -5,9 +5,9 @@ import hashlib
 usuarios_api = Blueprint('usuarios_api', __name__)
 
 DB_HOST = 'localhost'
-DB_USER = 'root'
-DB_PASSWORD = 'michilines_usuario'
-DB_NAME = 'michilines'
+DB_USER = 'powpatrol'
+DB_PASSWORD = 'Powpatrol1.'
+DB_NAME = 'pawbase'
 
 def obtener_conexion():
     return pymysql.connect(
