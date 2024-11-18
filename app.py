@@ -26,7 +26,14 @@ def base():
 
 @app.route('/galeria')
 def galeria():
-    return render_template("galeria.html")
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM mascotas")
+        mascotas = cursor.fetchall()
+    conexion.close()
+    
+    return render_template("galeria.html", mascotas=mascotas)
+
 
 @app.route('/perfil/<int:id>')
 def perfilMascota(id):
