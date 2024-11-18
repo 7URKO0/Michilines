@@ -5,20 +5,35 @@ from apis.usuarios import usuarios_api
 
 app = Flask(__name__)
 
-@app.route('/')
 def index():
-    return render_template("index.html")
+    #Esto creo que usando apis se puede evitar hardcodear
+    datosIntegrantes = {
+        "1": {"nombre":"Camila Pratto", "descripcion":"Ingenieria en Informatica", "imagenUrl":"imagenes/persona1.png"},
+        "2": {"nombre":"Camila Anahi Wilverht Rohr", "descripcion":"Ingenieria en Informatica", "imagenUrl":"imagenes/persona2.png"},
+        "3": {"nombre": "Francisca Gaillard", "descripcion" : "Ingenieria en Informatica", "imagenUrl":"imagenes/persona3.png"},
+        "4": {"nombre": "Ignacio Cettour", "descripcion" : "Ingenieria en Informatica", "imagenUrl":"imagenes/persona4.png"},
+        "5": {"nombre": "Lara Ovejero", "descripcion" : "Ingenieria en Informatica", "imagenUrl":"imagenes/persona5.png"},
+        "6": {"nombre": "Matias Rigano", "descripcion" : "Ingenieria en Informatica", "imagenUrl":"imagenes/persona6.png"},
+        "7": {"nombre": "Victor Oliva", "descripcion" : "Ingenieria en Informatica", "imagenUrl":"imagenes/persona7.png"},
+        "8": {"nombre": "Leonel Chaves", "descripcion" : "Profesor en la UBA y corrector del proyecto.", "imagenUrl":"imagenes/persona8.png"}
+
+    }
+    return render_template("index.html", datosIntegrantes=datosIntegrantes)
+
+@app.route('/')
+def base():
+    return render_template("base.html")
 
 @app.route('/galeria')
 def galeria():
     return render_template("galeria.html")
 
 @app.route('/perfil/<int:id>')
-def perfil_mascota(id):
+def perfilMascota(id):
     return render_template("perfilMascota.html", id=id)
 
 @app.route('/publicarMascotas')
-def publicar_mascotas():
+def publicarMascotas():
     return render_template("publicarMascotas.html")
 
 @app.route('/registrarse')
@@ -26,7 +41,7 @@ def registrarse():
     return render_template("registrarse.html")
 
 @app.route('/iniciarSesion')
-def iniciar_sesion():
+def iniciarSesion():
     return render_template("iniciarSesion.html")
 
 @app.route('/integrantes')
