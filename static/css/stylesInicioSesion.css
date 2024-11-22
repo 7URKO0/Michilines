@@ -20,7 +20,10 @@
   /* Espacio para evitar superposición con el contenido principal */
   .main_content {
     margin-top: 40px; /* Ajusta según la altura del header */
+    flex: 1;
+
   }
+
 
 
 body {
@@ -40,6 +43,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    
 }
 
 .formulario {
