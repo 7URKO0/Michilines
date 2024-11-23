@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from apis.mascotas import mascotas_api, obtener_conexion
 from apis.comentarios import comentarios_api
 from apis.usuarios import usuarios_api
@@ -36,13 +36,54 @@ def galeria():
     return render_template("galeria.html", mascotas=mascotas)
 
 
-@app.route('/perfil/<int:id>')
+@app.route('/perfilMascota/<int:id>')
 def perfilMascota(id):
     return render_template("perfilMascota.html", id=id)
+
+@app.route('/publicar', METHODS=['POST'])
+def publicar():
+    nombre=request.form.get('nombreMascota')
+    descripcion=request.form.get('descripcion')
+    imagen_url=request.form.get('')
+    raza=request.form.get('especie')
+    zona=request.form.get('')
+    estado=request.form.get('condicion')
+    
+    data={
+        "nombre":nombre,
+        "descripcion":descripcion,
+        "raza":raza,
+        "estado":estado
+    }
+    api_url = "http://powpatrol:Powpatrol1./mascotas" 
+    try:
+        # Enviar datos a la API usando POST
+        response = requests.post(api_url, json=data)
+
+        # Manejar la respuesta de la API
+        if response.status_code == 200:
+            api_response = response.json()
+            return jsonify({
+                "status": "success",
+                "message": "Datos enviados correctamente a la API.",
+                "api_response": api_response
+            })
+        else:
+            return jsonify({
+                "status": "error",
+                "message": f"Error al enviar datos a la API. Código de estado: {response.status_code}"
+            }), response.status_code
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Error al conectar con la API: {str(e)}"
+        }), 500
 
 @app.route('/publicarMascotas')
 def publicarMascotas():
     return render_template("publicarMascotas.html")
+
 
 @app.route('/registrarse')
 def registrarse():

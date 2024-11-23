@@ -19,7 +19,6 @@ CREATE TABLE mascotas (
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     comentario TEXT,
-    fecha_comentario DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
 

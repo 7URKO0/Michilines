@@ -17,8 +17,8 @@ def obtener_conexion():
         cursorclass=pymysql.cursors.DictCursor
     )
 
-@mascotas_api.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def manejar_mascotas():
+@mascotas_api.route('/perfilMascota/<id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def manejar_mascotas(data):
     if request.method == 'GET':
         mascota_id = request.args.get('id')
         conexion = obtener_conexion()
@@ -41,13 +41,12 @@ def manejar_mascotas():
         conexion = obtener_conexion()
         with conexion.cursor() as cursor:
             cursor.execute("""
-                INSERT INTO mascotas (nombre, descripcion, imagen_url, edad, raza, zona, estado)
+                INSERT INTO mascotas (nombre, descripcion, imagen_url, raza, zona, estado)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (
                 data['nombre'], 
                 data['descripcion'], 
                 data['imagen_url'], 
-                data['edad'], 
                 data['raza'], 
                 data['zona'], 
                 data['estado']
@@ -66,13 +65,12 @@ def manejar_mascotas():
         with conexion.cursor() as cursor:
             cursor.execute("""
                 UPDATE mascotas
-                SET nombre = %s, descripcion = %s, imagen_url = %s, edad = %s, raza = %s, zona = %s, estado = %s
+                SET nombre = %s, descripcion = %s, imagen_url = %s, raza = %s, zona = %s, estado = %s
                 WHERE id = %s
             """, (
                 data['nombre'], 
                 data['descripcion'], 
-                data['imagen_url'], 
-                data['edad'], 
+                data['imagen_url'],  
                 data['raza'], 
                 data['zona'], 
                 data['estado'], 
