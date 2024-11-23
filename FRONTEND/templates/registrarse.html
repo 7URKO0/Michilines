@@ -6,21 +6,35 @@
 {% endblock %}
 
 {% block formulario %} 
-    <div class="registroContenedor">
-        <form method="POST" action="{{ url_for('registrarse') }}">
-            <div>
-                <label for="confirmarContraseña">Contraseña</label>
-                <input type="password" id="confirmarContraseña" name="confirmarContraseña" required>
-            </div>
-            <button type="submit">Registrarse</button>
-        </form>
-    </div>
+<div class="registroContenedor">
+    <form id="formRegistro" method="POST" action="{{ url_for('registrarse') }}">
+        <div>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+        </div>
+        <div>
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required>
+        </div>
+        <div>
+            <label for="correo">Correo Electrónico</label>
+            <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo" required>
+        </div>
+        <div>
+            <label for="contraseña">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" required>
+        </div>
+        <div>
+            <label for="confirmarContraseña">Confirmar Contraseña</label>
+            <input type="password" id="confirmarContraseña" name="confirmarContraseña" placeholder="Confirma tu contraseña" required>
+        </div>
+        <button type="submit">Registrarse</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block iniciarSesion %}
-    <div class="iniciarSesion">
-        ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
-    </div>
+<div class="iniciarSesion">
+    ¿Ya tienes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
+</div>
 {% endblock %}
-
-<script src="{{ url_for('static', filename='js/scriptRegistro.js') }}"></script>

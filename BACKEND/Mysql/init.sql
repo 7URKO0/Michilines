@@ -34,8 +34,11 @@ INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, zona, come
 VALUES 
 (1, 'Luna', 'Gato', 'Perdida', 'Gato gris con ojos verdes.', 'Barrio Norte', 'Vi a Luna cerca de la plaza.'),
 (2, 'Tomi', 'Perro', 'Perdida', 'Perro labrador de color amarillo.', 'Villa Urquiza', NULL), 
-(3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.');
-
-
+(3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.'),
+(4, 'Copito', 'Conejo', 'Encontrada', 'Conejo blanco con orejas largas.', 'Caballito', 'Visto en el parque Rivadavia.'),
+(5, 'Franklin', 'Tortuga', 'Perdida', 'Tortuga pequeña de caparazón oscuro.', 'Villa Crespo', NULL),
+(6, 'Mara', 'Perro', 'Perdida', 'Pug tranquila y juguetona.', 'Recoleta', NULL),
+(7, 'Bobby', 'Perro', 'Encontrada', 'Golden Retriever amigable.', 'Belgrano', 'Estaba paseando cerca del río.'),
+(8, 'Mika', 'Perro', 'Perdida', 'Jack Russell Terrier juguetón.', 'Palermo', 'Visto en el parque Las Heras.');
 
 

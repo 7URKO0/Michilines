@@ -1,23 +1,13 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const formulario = document.getElementById('formularioMascotaPerdida');
-    
-    formulario.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        
-        const mascotaData = {
-            nombre: document.getElementById('nombreMascota').value,
-            especie: document.getElementById('especie').value,
-            condicion: document.getElementById('condicion').value,
-            descripcion: document.getElementById('descripcion').value,
-            fechaPerdida: document.getElementById('fechaPerdida').value,
-            ubicacion: null //agregar el mapa
-        };
-
-
-        // falta agrear toda la funcionalidad de las apis(agregar los datos a las apis)
-        // manejar tema de la foto
-        // validar todo el formulario
-        // y no se que mas pero falta
-
-    }); 
-}); 
+document.addEventListener('DOMContentLoaded', function () {
+    const map = L.map('map').setView([-34.603722, -58.381592], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+    let marker;
+    map.on('click', function (e) {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker(e.latlng).addTo(map);
+        document.getElementById('latitud').value = e.latlng.lat;
+        document.getElementById('longitud').value = e.latlng.lng;
+    });
+});

@@ -25,32 +25,139 @@ def index():
 def base():
     return render_template("base.html")
 
+import requests
+
 @app.route('/galeria')
 def galeria():
-    conexion = obtener_conexion()
-    with conexion.cursor() as cursor:
-        cursor.execute("SELECT * FROM mascotas")
-        mascotas = cursor.fetchall()
-    conexion.close()
+    # URL de tu API
+    api_url = 'http://localhost:5000/api/mascotas/listar'
+    try:
+        # Realiza la solicitud GET a la API
+        response = requests.get(api_url)
+        # Verifica si la solicitud fue exitosa
+        if response.status_code == 200:
+            mascotas = response.json()  # Convierte la respuesta en JSON
+        else:
+            mascotas = []  # Si falla, retorna una lista vacía
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consumir la API: {e}")
+        mascotas = []
+
+    return render_template("galeria.html", mascotas=mascotas)
+
     
     return render_template("galeria.html", mascotas=mascotas)
 
 
 @app.route('/perfil/<int:id>')
 def perfilMascota(id):
-    return render_template("perfilMascota.html", id=id)
+    api_url = f'http://localhost:5000/api/mascotas/{id}'
+    try:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            mascota = response.json()  # Detalles de la mascota
+        else:
+            mascota = None  # Mascota no encontrada
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consumir la API: {e}")
+        mascota = None
 
-@app.route('/publicarMascotas')
-def publicarMascotas():
-    return render_template("publicarMascotas.html")
+    return render_template("perfilMascota.html", mascota=mascota)
 
-@app.route('/registrarse')
+
+@app.route('/perfil/<int:id>', methods=['GET', 'POST'])
+def perfilMascota(id):
+    if request.method == 'POST':
+        comentario = request.form.get('comentario')
+        # Lógica para guardar el comentario
+        api_url = f'http://localhost:5000/api/comentarios'
+        data = {
+            "mascota_id": id,
+            "contenido": comentario
+        }
+        try:
+            requests.post(api_url, json=data)
+            mensaje = "Comentario publicado con éxito"
+        except Exception as e:
+            mensaje = f"Error al publicar el comentario: {str(e)}"
+
+    # Lógica para obtener los detalles de la mascota
+    api_url = f'http://localhost:5000/api/mascotas/{id}'
+    try:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            mascota = response.json()
+        else:
+            return render_template("404.html"), 404
+    except Exception as e:
+        return render_template("500.html", error=str(e)), 500
+
+    return render_template("perfilmascota.html", mascota=mascota)
+
+
+
+@app.route('/registrarse', methods=['GET', 'POST'])
 def registrarse():
-    return render_template("registrarse.html")
+    if request.method == 'POST':
+        # Capturar los datos del formulario
+        nombre = request.form.get('nombre')
+        apellido = request.form.get('apellido')
+        correo = request.form.get('correo')
+        contraseña = request.form.get('contraseña')
+        confirmar_contraseña = request.form.get('confirmarContraseña')
 
-@app.route('/iniciarSesion')
+        # Validar contraseñas
+        if contraseña != confirmar_contraseña:
+            mensaje = "Las contraseñas no coinciden. Inténtalo de nuevo."
+            return render_template('registrarse.html', mensaje=mensaje)
+
+        # Enviar datos a la API
+        data = {
+            "nombre": nombre,
+            "apellido": apellido,
+            "correo": correo,
+            "contraseña": contraseña
+        }
+
+        try:
+            response = requests.post('http://localhost:5000/api/usuarios', json=data)
+            if response.status_code == 201:
+                return redirect(url_for('iniciarSesion'))  # Redirigir a iniciar sesión
+            else:
+                error_message = response.json().get('message', 'Error desconocido')
+                return render_template('registrarse.html', mensaje=f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            return render_template('registrarse.html', mensaje=f"Error al conectar con la API: {str(e)}")
+
+    return render_template('registrarse.html')
+
+
+@app.route('/iniciarSesion', methods=['GET', 'POST'])
 def iniciarSesion():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+        
+        # Conexión con la API
+        api_url = 'http://localhost:5000/api/usuarios/login'
+        data = {
+            "correo": correo,
+            "contraseña": contraseña
+        }
+        try:
+            response = requests.post(api_url, json=data)
+            if response.status_code == 200:
+                usuario = response.json()
+                mensaje = f"Bienvenido, {usuario['nombre']}!"
+            else:
+                mensaje = "Credenciales incorrectas, por favor verifica."
+        except requests.exceptions.RequestException as e:
+            mensaje = f"Error de conexión con la API: {str(e)}"
+        
+        return render_template("iniciarSesion.html", mensaje=mensaje)
+
     return render_template("iniciarSesion.html")
+
 
 @app.route('/integrantes')
 def integrantes():

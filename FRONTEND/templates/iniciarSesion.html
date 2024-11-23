@@ -1,21 +1,30 @@
 {% extends 'baseSesion.html'%}
 
-{%block estilo%} 
-<title>Iniciar Sesion</title>
+{% block estilo %} 
+<title>Iniciar Sesión</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInicioSesion.css') }}">
 {% endblock %}
 
-    {% block formulario %} 
-    <div class="inicioSesionContenedor">
+{% block formulario %} 
+<div class="inicioSesionContenedor">
 
-        <form id="inicioSesionFormulario" method="POST" action="{{ url_for('iniciarSesion') }}"></form>
-    {% endblock %}
+    <!-- Formulario de Inicio de Sesión -->
+    <form id="inicioSesionFormulario" method="POST" action="{{ url_for('iniciarSesion') }}">
+        <label for="correo">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo" required>
 
-            <button type="submit">{% block boton %} Iniciar Sesion {% endblock %}</button>
-            
-        {% block registrarse%} 
-        <div class="registrarse">
-            ¿No tenes una cuenta? <a href="{{ url_for('registrarse') }}">Registrate</a>
-        </div>
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" required>
 
-     <script src="{{ url_for('static', filename='js/scriptInicioSesion.js') }}"></script>{% endblock %}
+        <button type="submit">{% block boton %}Iniciar Sesión{% endblock %}</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block registrarse %} 
+<div class="registrarse">
+    ¿No tienes una cuenta? <a href="{{ url_for('registrarse') }}">Regístrate</a>
+</div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/scriptInicioSesion.js') }}"></script>
