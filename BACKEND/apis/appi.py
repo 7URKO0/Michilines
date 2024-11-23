@@ -94,20 +94,20 @@ def borrar_mascota(id):
 def registrar_usuario():
     data = request.json
 
-    # Validar datos requeridos
+# Validar datos requeridos
     campos_requeridos = ['nombre', 'apellido', 'correo', 'contraseña']
     if not all(campo in data for campo in campos_requeridos):
         return jsonify({"message": "Faltan datos obligatorios"}), 400
 
-    # Conexión a la base de datos
+# Conexión a la base de datos
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        # Verificar si el correo ya está registrado
+# Verificar si el correo ya está registrado
         cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (data['correo'],))
         if cursor.fetchone():
             return jsonify({"message": "El correo ya está registrado"}), 400
 
-        # Registrar el nuevo usuario
+# Registrar el nuevo usuario
         cursor.execute("""
             INSERT INTO usuarios (nombre, apellido, correo, contraseña)
             VALUES (%s, %s, %s, %s)

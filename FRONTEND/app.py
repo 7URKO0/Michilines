@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
-from apis.mascotas import mascotas_api, obtener_conexion
-from apis.comentarios import comentarios_api
-from apis.usuarios import usuarios_api
+from BACKEND.apis.mascotas import mascotas_api
+from BACKEND.apis.comentarios import comentarios_api
+from BACKEND.apis.usuarios import usuarios_api
 
 app = Flask(__name__)
 
@@ -29,12 +29,12 @@ import requests
 
 @app.route('/galeria')
 def galeria():
-    # URL de tu API
+# URL de la api
     api_url = 'http://localhost:5000/api/mascotas/listar'
     try:
-        # Realiza la solicitud GET a la API
+# Realiza la solicitud GET a la API
         response = requests.get(api_url)
-        # Verifica si la solicitud fue exitosa
+# Verifica si la solicitud fue exitosa
         if response.status_code == 200:
             mascotas = response.json()  # Convierte la respuesta en JSON
         else:
@@ -51,6 +51,7 @@ def galeria():
 
 @app.route('/perfil/<int:id>')
 def perfilMascota(id):
+# URL de la api
     api_url = f'http://localhost:5000/api/mascotas/{id}'
     try:
         response = requests.get(api_url)
@@ -69,7 +70,7 @@ def perfilMascota(id):
 def perfilMascota(id):
     if request.method == 'POST':
         comentario = request.form.get('comentario')
-        # Lógica para guardar el comentario
+# Lógica para guardar el comentario
         api_url = f'http://localhost:5000/api/comentarios'
         data = {
             "mascota_id": id,
@@ -81,7 +82,7 @@ def perfilMascota(id):
         except Exception as e:
             mensaje = f"Error al publicar el comentario: {str(e)}"
 
-    # Lógica para obtener los detalles de la mascota
+# Lógica para obtener los detalles de la mascota
     api_url = f'http://localhost:5000/api/mascotas/{id}'
     try:
         response = requests.get(api_url)
@@ -99,19 +100,19 @@ def perfilMascota(id):
 @app.route('/registrarse', methods=['GET', 'POST'])
 def registrarse():
     if request.method == 'POST':
-        # Capturar los datos del formulario
+# Capturar los datos del formulario
         nombre = request.form.get('nombre')
         apellido = request.form.get('apellido')
         correo = request.form.get('correo')
         contraseña = request.form.get('contraseña')
         confirmar_contraseña = request.form.get('confirmarContraseña')
 
-        # Validar contraseñas
+# Validar contraseñas
         if contraseña != confirmar_contraseña:
             mensaje = "Las contraseñas no coinciden. Inténtalo de nuevo."
             return render_template('registrarse.html', mensaje=mensaje)
 
-        # Enviar datos a la API
+# Enviar datos a la API
         data = {
             "nombre": nombre,
             "apellido": apellido,
@@ -138,7 +139,7 @@ def iniciarSesion():
         correo = request.form['correo']
         contraseña = request.form['contraseña']
         
-        # Conexión con la API
+# Conexión con la API
         api_url = 'http://localhost:5000/api/usuarios/login'
         data = {
             "correo": correo,
@@ -178,4 +179,4 @@ app.register_blueprint(comentarios_api, url_prefix='/api/comentarios')
 app.register_blueprint(usuarios_api, url_prefix='/api/usuarios')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port = 3608)
