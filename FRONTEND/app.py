@@ -2,6 +2,8 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify
 from apis.mascotas import mascotas_api, obtener_conexion
 from apis.comentarios import comentarios_api
 from apis.usuarios import usuarios_api
+#form_blueprint = Blueprint('form', _name_, template_folder='BACKEND/apis')
+#concectar con el publicarMascotas(formulario)
 
 app = Flask(__name__)
 
