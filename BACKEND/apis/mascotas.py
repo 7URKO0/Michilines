@@ -18,7 +18,7 @@ def obtener_conexion():
     )
 
 @mascotas_api.route('/perfilMascota/<id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def manejar_mascotas(data):
+def manejar_mascotas():
     if request.method == 'GET':
         mascota_id = request.args.get('id')
         conexion = obtener_conexion()
