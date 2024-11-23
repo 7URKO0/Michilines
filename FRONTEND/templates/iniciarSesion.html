@@ -8,7 +8,7 @@
     {% block formulario %} 
     <div class="inicioSesionContenedor">
 
-        <form id="inicioSesionFormulario">
+        <form id="inicioSesionFormulario" method="POST" action="{{ url_for('iniciarSesion') }}"></form>
     {% endblock %}
 
             <button type="submit">{% block boton %} Iniciar Sesion {% endblock %}</button>

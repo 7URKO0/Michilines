@@ -1,0 +1,26 @@
+{% extends 'baseSesion.html' %}
+
+{% block estilo %} 
+    <title>Registro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesRegistro.css') }}"> 
+{% endblock %}
+
+{% block formulario %} 
+    <div class="registroContenedor">
+        <form method="POST" action="{{ url_for('registrarse') }}">
+            <div>
+                <label for="confirmarContraseña">Contraseña</label>
+                <input type="password" id="confirmarContraseña" name="confirmarContraseña" required>
+            </div>
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block iniciarSesion %}
+    <div class="iniciarSesion">
+        ¿Ya tenes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
+    </div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/scriptRegistro.js') }}"></script>

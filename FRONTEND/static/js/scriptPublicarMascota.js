@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const mascotaData = {
             nombre: document.getElementById('nombreMascota').value,
-            edad: document.getElementById('edadMascota').value,
             especie: document.getElementById('especie').value,
             condicion: document.getElementById('condicion').value,
             descripcion: document.getElementById('descripcion').value,
