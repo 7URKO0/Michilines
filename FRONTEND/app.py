@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from datetime import datetime
+from BACKEND.apis.appi import appi  # Importa el Blueprint
 
 app = Flask(__name__)
-
+app.register_blueprint(appi, url_prefix='/api') 
 
 def get_db_connection():
     return mysql.connector.connect(
