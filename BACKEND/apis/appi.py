@@ -3,8 +3,15 @@ import pymysql
 import hashlib
 
 app = Flask(__name__)
-
-connection = mysql.connector.connect(
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        port=3307,  # Asegúrate de que este valor sea un número entero
+        user="powpatrol",
+        password="Powpatrol1",
+        database="pawbase"
+    )
+connection = mysql.connection.connect(
     host='db',              
     user='powpatrol',        
     password='Powpatrol1.',  
