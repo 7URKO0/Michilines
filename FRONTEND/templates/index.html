@@ -258,47 +258,43 @@
   </section>
   <!-- end client section -->
    
- <!-- integrantes -->
- <section class="service_section layout_padding">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 offset-md-2">
-        <h2 class="custom_heading">
-          <span>Integrantes</span>
-        </h2>
-        <div class="container layout_padding2">
-          <div class="row">
-            <!--Inicio for-->
-            {% for id, dato in datosIntegrantes.items() %}
-            <div class="col-md-4">
-              <div class="img_box">
-                <img src="{{url_for('static', filename = dato.imagenUrl)}}" alt="">
-              </div>
-              <div class="detail_box">
-                <h6>
-                  {{ dato.nombre }}
-                </h6>
-                <p>
-                  {{ dato.descripcion }}
-                </p>
-              </div>
-            </div>
-            {% endfor %}
-             <!--Termino for-->
+  <section class="service_section layout_padding">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <h2 class="custom_heading">
+            <span>Integrantes</span>
+          </h2>
+          <div class="container layout_padding2">
+            <div class="row">
+              <!-- Inicio del for -->
+              {% for id, dato in datos_integrantes %}
+                <div class="col-md-4">
+                  <div class="img_box">
+                    <img src="{{ url_for('static', filename=dato.imagenUrl) }}" alt="{{ dato.nombre }}">
+                  </div>
+                  <div class="detail_box">
+                    <h6>
+                      {{ dato.nombre }}
+                    </h6>
+                    <p>
+                      {{ dato.descripcion }}
+                    </p>
+                  </div>
+                </div>
+              {% endfor %}
+              <!-- Fin del for -->
             </div>
           </div>
           <div>
-            <a href="{{ url_for('integrantes')}}">
+            <a href="{{ url_for('integrantes') }}" class="btn-1">Ir a Integrantes</a>
             Todos los Integrantes
-            </a>
           </div>
-        </div>
-        <div class="col-md-4">
         </div>
       </div>
     </div>
   </section>
-
+  
   <!-- end integrantes -->
 
   <!-- map section -->
