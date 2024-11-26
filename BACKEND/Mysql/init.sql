@@ -1,10 +1,7 @@
 CREATE TABLE usuarios (
-    id_usuarios INT AUTO_INCREMENT PRIMARY KEY, 
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY, 
     correo VARCHAR(100) NOT NULL UNIQUE,
-    contraseña VARCHAR(255),
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    contraseña VARCHAR(255)
 );
 
 
@@ -19,15 +16,15 @@ CREATE TABLE mascotas (
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     comentario TEXT,
-    FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
+    FOREIGN KEY (id_usuarios) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 
-INSERT INTO usuarios (nombre, apellido, correo, contraseña) 
+INSERT INTO usuarios (correo, contraseña) 
 VALUES 
-('Delfina', 'Videla', 'dvidela@gmail.com', 'contraseña123'),
-('Victoria', 'Grumelli', 'vgrumelli@gmail.com', 'contraseña456'),
-('Matias', 'Prestti', 'mprestti@gmail.com', 'contraseña789');
+('dvidela@gmail.com', 'contraseña123'),
+('vgrumelli@gmail.com', 'contraseña456'),
+('mprestti@gmail.com', 'contraseña789');
 
 INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, zona, comentario)
 VALUES 
