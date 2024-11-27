@@ -1,52 +1,55 @@
 .header_section {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: #fafcfd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 5px 0; /* Reduce el espacio vertical */
-  }
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fafcfd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  /* Ajuste del contenedor para centrar los elementos */
-  .custom_nav-container .navbar {
-    align-items: center;
-  }
+/* Ajuste del contenedor para centrar los elementos */
+.custom_nav-container .navbar {
+  align-items: center;
+}
 
-  /* Tamaño de fuente y estilo de los elementos de navegación */
-  .navbar-nav .nav-link {
-    font-size: 14px; /* Tamaño de fuente más pequeño */
-    padding: 0 10px; /* Reduce el espaciado horizontal */
-    white-space: nowrap; /* Evita que el texto se divida en varios renglones */
-  }
-  
-  .navbar-brand{
-    margin-right: -10px;
-  }
+/* Tamaño de fuente y estilo de los elementos de navegación */
+.navbar-nav .nav-link {
+  font-size: 14px; /* Tamaño de fuente más pequeño */
+  padding: 0 10px; /* Reduce el espaciado horizontal */
+  white-space: nowrap; /* Evita que el texto se divida en varios renglones */
+}
 
-  /* Espacio para evitar superposición con el contenido principal */
-  .main_content {
-    margin-top: 100px; /* Ajusta según la altura del header */
+.navbar-brand{
+  margin-right: -10px;
+}
 
-  }
+/* Espacio para evitar superposición con el contenido principal */
+.main_content {
+  margin-top: 100px; /* Ajusta según la altura del header */
+  padding: 50px;
+}
+
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: auto;
+    min-height: 85vh;
     background-color: #669cff;
-    padding: 50px;
+}
+
+.publicar {
+  margin-bottom: 19rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .contenedor {
-    background-color: white;
-    padding: 50px 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+  margin-top: 10rem;
+  background-color: white;
+  padding: 50px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
 }
 
 .formulario {
@@ -81,6 +84,5 @@ label {
     border: none;
     border-radius: 4px;
     font-size: 1rem;
-    cursor: pointer;
     margin-top: 1rem;
 } 

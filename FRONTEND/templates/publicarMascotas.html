@@ -1,63 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'baseSesion.html'%}
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+{% block estilo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesPublicarMascota.css') }}">
+<title>Publicar Mascota Perdida</title>
+{% endblock %}
 
-    <!-- Fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-
-    <!-- Responsive style -->
-    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
-
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
-    <!-- Custom styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesPublicarMascota.css') }}">
-
-    <title>Publicar Mascota Perdida</title>
-</head>
-
-<body>
-    <!-- Header Section -->
-    <header class="header_section">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg custom_nav-container">
-                <a class="navbar-brand" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='imagenes/huellas.png') }}" alt="">
-                    <span>Michilines</span>
-                </a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ url_for('index') }}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('galeria') }}">Mascotas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('publicarMascotas') }}">Publicar Mascota Perdida</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('registrarse') }}">Registrarse</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
+{% block formulario %}
+<section class="publicar">
     <div class="main_content">
         <div class="contenedor">
           <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="{{ url_for('publicarMascotas') }}">
@@ -73,18 +22,18 @@
                 <option value="Casa transitoria">Casa transitoria</option>
                 <option value="Encontrado">Encontrado</option>
             </select>
-            <textarea id="descripcion" name="descripcion" placeholder="Descripción de la mascota" required></textarea>
+            <textarea id="descripcion" name="descripcion" placeholder="DescripciÃ³n de la mascota" required></textarea>
             <input type="date" id="fechaPerdida" name="fecha_perdida" required>
             <input type="hidden" id="latitud" name="latitud">
             <input type="hidden" id="longitud" name="longitud">
             <button type="submit">Publicar</button>
-        </form>
-        
+         </form>
         </div>
     </div>
+</section>
+{% endblock %}
 
-    <!-- Leaflet JS -->
+{% block script %}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="{{ url_for('static', filename='js/publicarmascota.js') }}"></script>
-</body>
-</html>
+{% endblock %}
