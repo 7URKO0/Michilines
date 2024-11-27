@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Flask, jsonify, request
 import pymysql
 
-# Configuración del Blueprint
-appi = Blueprint('appi', __name__)
+app = Flask(__name__)
 
 # Configuración de la base de datos
 db_config = {
@@ -23,7 +22,7 @@ def get_db_connection():
     )
 
 # --- Rutas para Mascotas ---
-@appi.route('/mascotas', methods=['GET'])
+@app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
     query = "SELECT * FROM mascotas;"
     try:
@@ -37,7 +36,7 @@ def obtener_mascotas():
     finally:
         connection.close()
 
-@appi.route('/mascotas', methods=['POST'])
+@app.route('/mascotas', methods=['POST'])
 def agregar_mascota():
     nueva_mascota = request.get_json()
     query = """INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, zona, comentario)
@@ -58,7 +57,7 @@ def agregar_mascota():
     finally:
         connection.close()
 
-@appi.route('/mascotas/<int:id>', methods=['PATCH'])
+@app.route('/mascotas/<int:id>', methods=['PATCH'])
 def modificar_mascota(id):
     modificar_mascota = request.get_json()
     campos = ', '.join([f"{key} = %s" for key in modificar_mascota])
@@ -75,7 +74,7 @@ def modificar_mascota(id):
     finally:
         connection.close()
 
-@appi.route('/mascotas/<int:id>', methods=['DELETE'])
+@app.route('/mascotas/<int:id>', methods=['DELETE'])
 def borrar_mascota(id):
     query = "DELETE FROM mascotas WHERE id = %s;"
     try:
@@ -90,7 +89,7 @@ def borrar_mascota(id):
         connection.close()
 
 # --- Rutas para Comentarios ---
-@appi.route('/comentarios', methods=['POST'])
+@app.route('/comentarios', methods=['POST'])
 def agregar_comentario():
     nuevo_comentario = request.get_json()
     query = """INSERT INTO comentarios (id_mascota, id_usuario, texto)
@@ -109,7 +108,7 @@ def agregar_comentario():
     finally:
         connection.close()
 
-@appi.route('/comentarios/<int:id>', methods=['DELETE'])
+@app.route('/comentarios/<int:id>', methods=['DELETE'])
 def borrar_comentario(id):
     query = "DELETE FROM comentarios WHERE id = %s;"
     try:
@@ -124,7 +123,7 @@ def borrar_comentario(id):
         connection.close()
 
 # --- Rutas para Usuarios ---
-@appi.route('/usuarios', methods=['POST'])
+@app.route('/usuarios', methods=['POST'])
 def registrar_usuario():
     data = request.get_json()
     campos_requeridos = ['nombre', 'apellido', 'correo', 'contraseña']
@@ -153,7 +152,7 @@ def registrar_usuario():
     finally:
         connection.close()
 
-@appi.route('/usuarios/login', methods=['POST'])
+@app.route('/usuarios/login', methods=['POST'])
 def login_usuario():
     data = request.get_json()
     correo = data.get('correo')
@@ -178,4 +177,4 @@ def login_usuario():
         connection.close()
 
 if __name__ == '__main__':
-    appi.run(debug=True)
+   app.run("127.0.0.1",debug=True, port=5001)
