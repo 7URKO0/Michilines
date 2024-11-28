@@ -1,8 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
+from flask_bcrypt import Bcrypt
+import mysql.connector
 import pymysql
 
 app = Flask(__name__)
-
+bcrypt = Bcrypt(app)
 # Configuración de la base de datos
 db_config = {
     "host": "localhost",
@@ -125,56 +127,76 @@ def borrar_comentario(id):
 # --- Rutas para Usuarios ---
 @app.route('/usuarios', methods=['POST'])
 def registrar_usuario():
-    data = request.get_json()
-    campos_requeridos = ['nombre', 'apellido', 'correo', 'contraseña']
+    data = request.form.to_dict()  # Captura datos del formulario en formato clave-valor
+    print("Datos recibidos:", data)  # Para depuración
+
+    campos_requeridos = ['nombre', 'apellido', 'correo', 'contrasni', 'confirmarContrasni']
     if not all(campo in data for campo in campos_requeridos):
         return jsonify({"message": "Faltan datos obligatorios"}), 400
 
+    if data['contrasni'] != data['confirmarContrasni']:
+        return jsonify({"message": "Las contrasnis no coinciden"}), 400
+
+    hashed_password = bcrypt.generate_password_hash(data['contrasni']).decode('utf-8')
     query = """
-        INSERT INTO usuarios (nombre, apellido, correo, contraseña)
+        INSERT INTO usuarios (nombre, apellido, correo, contrasni)
         VALUES (%s, %s, %s, %s)
     """
-    values = (data['nombre'], data['apellido'], data['correo'], data['contraseña'])
-
+    values = (data['nombre'], data['apellido'], data['correo'], hashed_password)
+    connection = None
+    cursor = None
     try:
         connection = get_db_connection()
-        with connection.cursor() as cursor:
-            # Verificar si el correo ya está registrado
-            cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (data['correo'],))
-            if cursor.fetchone():
-                return jsonify({"message": "El correo ya está registrado"}), 400
-            # Registrar el usuario
-            cursor.execute(query, values)
-            connection.commit()
-        return jsonify({"message": "Usuario registrado exitosamente"}), 201
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (data['correo'],))
+        if cursor.fetchone():
+            return jsonify({"message": "El correo ya está registrado"}), 400
+
+        cursor.execute(query, values)
+        connection.commit()
+
+        # Redirige al inicio de sesión en el frontend
+        return redirect('http://127.0.0.1:3609/iniciarSesion')
     except Exception as e:
         return jsonify({'message': f'Error al registrar usuario: {str(e)}'}), 500
     finally:
-        connection.close()
+        if cursor is not None:
+            try:
+                cursor.close()
+            except Exception as e:
+                print(f"Error al cerrar el cursor: {e}")
+
+        if connection is not None:
+            try:
+                connection.close()
+            except Exception as e:
+                print(f"Error al cerrar la conexión: {e}")
+                
 
 @app.route('/usuarios/login', methods=['POST'])
 def login_usuario():
-    data = request.get_json()
-    correo = data.get('correo')
-    contraseña = data.get('contraseña')
+    correo = request.form.get('correo')  # Cambiado para datos de formulario
+    contrasni = request.form.get('contrasni')
 
-    if not correo or not contraseña:
-        return jsonify({"message": "Correo y contraseña son obligatorios"}), 400
+    if not correo or not contrasni:
+        return jsonify({"message": "Correo y contrasni son obligatorios"}), 400
 
-    query = "SELECT * FROM usuarios WHERE correo = %s AND contraseña = %s;"
+    query = "SELECT * FROM usuarios WHERE correo = %s;"
     try:
         connection = get_db_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(query, (correo, contraseña))
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute(query, (correo,))
             usuario = cursor.fetchone()
-        if usuario:
-            return jsonify({"message": "Inicio de sesión exitoso", "usuario": usuario}), 200
-        else:
-            return jsonify({"message": "Credenciales incorrectas"}), 401
+
+            # Verificar credenciales
+            if usuario and bcrypt.checkpw(contrasni.encode('utf-8'), usuario['contrasni'].encode('utf-8')):
+                return jsonify({"message": "Inicio de sesión exitoso", "usuario": usuario}), 200
+            else:
+                return jsonify({"message": "Credenciales incorrectas"}), 401
     except Exception as e:
         return jsonify({'message': f'Error al iniciar sesión: {str(e)}'}), 500
     finally:
         connection.close()
 
 if __name__ == '__main__':
-   app.run("127.0.0.1",debug=True, port=5001)
+   app.run("127.0.0.1",debug=True, port=5000)

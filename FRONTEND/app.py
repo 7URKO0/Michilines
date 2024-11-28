@@ -14,12 +14,13 @@ def get_db_connection():
         password="Powpatrol1.",
         database="pawbase"
     )
-# Configuración de la conexión a la base de datos
+
 db_config = {
-    'host': 'localhost',
-    'user': 'root',  # Cambia esto por tu usuario de MySQL
-    'password': 'tu_contraseña',  # Cambia esto por tu contraseña
-    'database': 'michilines'  # Cambia esto por el nombre de tu base de datos
+    "host": "localhost",
+    "port": 3307,
+    "user": "powpatrol",
+    "password": "Powpatrol1.",
+    "database": "pawbase"
 }
 
 # RUTA: Página principal
@@ -145,70 +146,14 @@ def publicarMascotas():
     return render_template('publicarMascotas.html')
 
 
-# RUTA: Registro de usuarios
-@app.route('/registrarse', methods=['GET', 'POST'])
+@app.route('/registrarse', methods=['GET'])
 def registrarse():
-    if request.method == 'POST':
-        # Capturar datos del formulario
-        nombre = request.form.get('nombre')
-        apellido = request.form.get('apellido')
-        correo = request.form.get('correo')
-        contraseña = request.form.get('contraseña')
-        confirmar_contraseña = request.form.get('confirmarContraseña')
-
-        # Validar contraseñas
-        if contraseña != confirmar_contraseña:
-            mensaje = "Las contraseñas no coinciden. Inténtalo de nuevo."
-            return render_template('registrarse.html', mensaje=mensaje)
-
-        try:
-            connection = mysql.connector.connect(**db_config)
-            cursor = connection.cursor()
-            query = """
-                INSERT INTO usuarios (nombre, apellido, correo, contraseña)
-                VALUES (%s, %s, %s, %s)
-            """
-            cursor.execute(query, (nombre, apellido, correo, contraseña))
-            connection.commit()
-            return redirect(url_for('iniciarSesion'))
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            mensaje = "Ocurrió un error al registrar el usuario. Intenta de nuevo."
-        finally:
-            cursor.close()
-            connection.close()
-
     return render_template('registrarse.html')
 
 # RUTA: Iniciar sesión
-@app.route('/iniciarSesion', methods=['GET', 'POST'])
+@app.route('/iniciarSesion', methods=['GET'])
 def iniciarSesion():
-    if request.method == 'POST':
-        correo = request.form.get('correo')
-        contraseña = request.form.get('contraseña')
-
-        try:
-            connection = mysql.connector.connect(**db_config)
-            cursor = connection.cursor(dictionary=True)
-            query = "SELECT * FROM usuarios WHERE correo = %s AND contraseña = %s"
-            cursor.execute(query, (correo, contraseña))
-            usuario = cursor.fetchone()
-
-            if usuario:
-                mensaje = f"Bienvenido, {usuario['nombre']}!"
-                return redirect(url_for('index'))
-            else:
-                mensaje = "Credenciales incorrectas. Intenta de nuevo."
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            mensaje = "Error al conectar con la base de datos. Intenta de nuevo."
-        finally:
-            cursor.close()
-            connection.close()
-
-        return render_template("iniciarSesion.html", mensaje=mensaje)
-
-    return render_template("iniciarSesion.html")
+    return render_template('iniciarSesion.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=3609)

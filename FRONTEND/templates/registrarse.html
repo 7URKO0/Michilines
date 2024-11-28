@@ -8,7 +8,7 @@
 {% block formulario %} 
 <section class="registro">
     <div class="registroContenedor">
-        <form id="formRegistro" method="POST" action="{{ url_for('registrarse') }}">
+        <form id="formRegistro" method="POST" action="http://localhost:5000/usuarios">
             <div>
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
@@ -22,15 +22,16 @@
                 <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo" required>
             </div>
             <div>
-                <label for="contraseña">Contraseña</label>
-                <input type="password" id="contraseña" name="contraseña" placeholder="Ingresa tu contraseña" required>
+                <label for="contrasni">Contrasni</label>
+                <input type="password" id="contrasni" name="contrasni" placeholder="Ingresa tu contrasni" required>
             </div>
             <div>
-                <label for="confirmarContraseña">Confirmar Contraseña</label>
-                <input type="password" id="confirmarContraseña" name="confirmarContraseña" placeholder="Confirma tu contraseña" required>
+                <label for="confirmarContrasni">Confirmar Contrasni</label>
+                <input type="password" id="confirmarContrasni" name="confirmarContrasni" placeholder="Confirma tu contrasni" required>
             </div>
             <button type="submit">Registrarse</button>
         </form>
+        
         <div class="iniciarSesion">
             ¿Ya tienes una cuenta? <a href="{{ url_for('iniciarSesion') }}">Iniciar Sesión</a>
         </div>
