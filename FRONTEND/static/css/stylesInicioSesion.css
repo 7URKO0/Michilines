@@ -5,7 +5,6 @@
     z-index: 1000;
     background-color: #fafcfd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   }
 
   /* Tamaño de fuente y estilo de los elementos de navegación */
@@ -21,19 +20,19 @@
   .main_content {
     margin-top: 40px; /* Ajusta según la altura del header */
     flex: 1;
-
   }
-
-
 
 body {
     font-family: Arial, sans-serif;
+    height: 85vh;
+    background-color: #669cff;
+}
+
+.inicioSesion {
+    margin-block: 20rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 50px;
-    background-color: #669cff;
 }
 
 .inicioSesionContenedor {
@@ -43,7 +42,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
-    
 }
 
 .formulario {

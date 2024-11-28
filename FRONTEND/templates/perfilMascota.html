@@ -1,47 +1,50 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
-{% block titulo %} <title>Perfil de {{ mascota['nombre'] }}</title>{% endblock %}
+{% block titulo %} <title>Perfil de {{ mascota.nombre }}</title> {% endblock %}
     
-    {% block estilo %} 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilMascota.css') }}">
-    {% endblock %}
-</head>
+{% block estilo %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilMascota.css') }}">
+{% endblock %}
 
 {% block contenido %}
 <body>
-
     <div class="contenedor">
+        <!-- Información de la mascota -->
         <div class="perfil-contenedor">
             <div class="imagen">
-                <img src="{{ url_for('static', filename=mascota['imagen_url']) }}" alt="Imagen de {{ mascota['nombre'] }}">
+                <img src="{{ mascota.imagen_url }}" alt="Imagen de {{ mascota.nombre }}">
             </div>
             <div class="informacion">
-                <h1>{{ mascota['nombre'] }}</h1>
-                <p>{{ mascota['descripcion'] }}</p>
+                <h1>{{ mascota.nombre }}</h1>
+                <p>{{ mascota.descripcion }}</p>
                 <hr>
-                <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
-                <p><strong>Zona:</strong> {{ mascota['zona'] }}</p>
+                <p><strong>Raza:</strong> {{ mascota.raza }}</p>
+                <p><strong>Zona:</strong> {{ mascota.zona }}</p>
             </div>
         </div>
+
+        <!-- Sección de comentarios -->
         <div class="comentarios">
             <h2>Comentarios</h2>
-            {% for comentario in mascota.comentarios %}
-            <div class="comentario">
-                <p>{{ comentario.contenido }}</p>
-            </div>
+            {% if mascota.comentarios %}
+                {% for comentario in mascota.comentarios %}
+                <div class="comentario">
+                    <p>{{ comentario }}</p>
+                </div>
+                {% endfor %}
             {% else %}
-            <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
-            {% endfor %}
+                <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
+            {% endif %}
         </div>        
+
+        <!-- Formulario para añadir comentarios -->
         <div class="comentarios">
             <form class="formulario" action="{{ url_for('perfilMascota', id=id) }}" method="post">
                 <label for="comentario">Deja un comentario:</label>
-                <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario..."></textarea>
+                <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario..." required></textarea>
                 <button type="submit" class="publicar">Enviar comentario</button>
             </form>
         </div>
     </div>
-    {% endblock %}
-    
 </body>
-</html>
+{% endblock %}

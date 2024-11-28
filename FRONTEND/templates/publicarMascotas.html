@@ -1,140 +1,39 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'css/bootstrap.css')}}" />
+{% extends 'baseSesion.html'%}
 
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="{{url_for('static', filename = 'css/style.css')}}" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="{{url_for('static', filename = 'css/responsive.css')}}" rel="stylesheet" />
-    <!--para el mapa con leaflet.js-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!--Por si quieren agregar mas estilos-->
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesPublicarMascota.css') }}">
+{% block estilo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesPublicarMascota.css') }}">
+<title>Publicar Mascota Perdida</title>
+{% endblock %}
 
-    <title>Publicar Mascota Perdida</title>
-</head>
-
-<body>
-     <!-- header section strats -->
-     <header class="header_section">
-        <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="{{url_for('index')}}">
-              <img src="{{url_for('static', filename = 'imagenes/huellas.png')}}" alt="">
-              <span>
-                Michilines
-              </span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-  
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                <ul class="navbar-nav  ">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('index')}}">inicio <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('galeria')}}">Mascotas </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('publicarMascotas')}}">publicar mascota perdida </a>
-                  </li>
-                  <li class="nav-item"></li>
-                    <a class="nav-link" href="{{url_for('iniciarSesion')}}">Iniciar Sesion </a>
-                  </li>
-                  <li class="nav-item"></li>
-                    <a class="nav-link" href="{{url_for('registrarse')}}">Registrarse </a>
-                  </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button> <!--boton de la lupita-->
-                </form>
-              </div>
-              <div class="quote_btn-container  d-flex justify-content-center">
-                <a href="">
-                  
-                </a>
-              </div>
-            </div>
-          </nav>
+{% block formulario %}
+<section class="publicar">
+    <div class="main_content">
+        <div class="contenedor">
+          <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="{{ url_for('publicarMascotas') }}">
+            <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre de la mascota" required>
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+            <select id="especie" name="especie" required>
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+                <option value="otro">Otro</option>
+            </select>
+            <select id="condicion" name="condicion" required>
+                <option value="Perdido">Perdido</option>
+                <option value="Casa transitoria">Casa transitoria</option>
+                <option value="Encontrado">Encontrado</option>
+            </select>
+            <textarea id="descripcion" name="descripcion" placeholder="DescripciÃ³n de la mascota" required></textarea>
+            <input type="date" id="fechaPerdida" name="fecha_perdida" required>
+            <input type="hidden" id="latitud" name="latitud">
+            <input type="hidden" id="longitud" name="longitud">
+            <button type="submit">Publicar</button>
+         </form>
         </div>
-      </header>
-      <!-- end header section -->
-<div class="main_content">
-    <div class="contenedor">
-        <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="{{ url_for('publicarMascotas') }}">
-
-
-
-            <div class="formulario">
-                <label for="nombreMascota">Nombre de la Mascota:</label>
-                <input type="text" class="Nombre" id="nombreMascota" required>
-            </div>
-
-            <div class="formulario">
-            </div>
-
-            <div class="formulario">
-                <label for="foto">Foto de la mascota:</label>
-                <input type="file" class="Foto" id="foto" accept="image/*">
-            </div>
-
-            <div class="formulario">
-
-                <label for="especie">Especie:</label>
-
-                <select class="formulario" id="especie" required>
-                    <option value="perro">Perro</option>
-                    <option value="gato">Gato</option>
-                    <option value="aves">aves</option>
-                    <option value="reptiles">reptiles</option>
-                    <option value="conejos">conejos</option>
-                    <option value="hamsters">hamsters</option>
-                    <option value="cobayos">cobayos</option>
-                    <option value="hurones">hurones</option>
-                </select>
-            </div>
-
-            <div class="formulario">
-
-                <label for="condicion">Condicion:</label>
-
-                <select class="formulario" id="condicion" required>
-                    <option value="Perdido">Perdido</option>
-                    <option value="Casa transitoria">Casa transitoria</option>
-                    <option value="Encontrado">Encontrado</option>
-                </select>
-            </div>
-
-            <!-- no se que caracteristicas agregar--> 
-
-            <div class="formulario">
-                <label for="descripcion">Descripción:</label>
-                <textarea class="Descripcion" id="descripcion" rows="3" required></textarea>
-            </div>
-
-            <div class="formulario">
-                <label for="fechaPerdida">Fecha de perdida:</label>
-                <input type="date" class="Fecha" id="fechaPerdida" required>
-            </div>
-
-            <div class="formulario">
-                <label for="ubicacion">ultima ubicación vista: (mapa tal vez?????)</label>
-                <!-- ver tema del mapa-->
-            </div>
-
-            <button type="submit" class="publicar">Publicar</button>
-
-        </form> 
     </div>
-</div>
-</body>
+</section>
+{% endblock %}
+
+{% block script %}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/publicarmascota.js') }}"></script>
+{% endblock %}

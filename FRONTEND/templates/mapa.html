@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+
+{%block title%}Mapa{% endblock %}
+
+{% block cssad %}          
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info_mascotas.css') }}">
+{% endblock %}
+
+{% block main %}
+
+        <section class="contenido" id="mapa">
+            <h2>Mapa</h2>
+            <!-- Filtro -->
+            <div class="filtro">
+
+            <label for="filtroTipo">Tipo:</label>
+            <select id="filtroTipo" onchange="seleccionarTipo();">
+                <option value="tipo">Tipo</option>
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+            </select> 
+
+            <label for="filtroSexo">Sexo:</label>
+            <select id="filtroSexo" onchange="seleccionarSexo();">
+                <option value="sexo">Sexo</option>
+                <option value="macho">Macho</option>
+                <option value="hembra">Hembra</option>
+            </select>
+
+
+            <label for="filtroColor">Color:</label>
+            <select id="filtroColor" onchange="seleccionarColor();">
+                <option value="color">Color</option>
+                <option value="negro">Negro</option>
+                <option value="blanco">Blanco</option>
+                <option value="marrón">Marrón</option>
+                <option value="naranja">Naranja</option>
+                <option value="manchas">Manchas</option>
+                <option value="negro y blanco">Negro y blanco</option>
+                <option value="marron y blanco">Marron y blanco</option>
+                <option value="naranja y blanco">Naranja y blanco</option>
+                <option value="gris">Gris</option>
+                <option value="marron claro">Marron claro</option>
+                <option value="otro">Otro</option>
+                
+            </select>     
+
+            <label for="filtroRaza">Raza:</label>
+            <select id="filtroRaza" onchange="seleccionarRaza();">
+                <option value="raza">Raza</option>
+                <option value="labrador">Labrador</option>
+                <option value="pastor aleman">Pastor Alemán</option>
+                <option value="siames">Siamés</option>
+                <option value="chihuahua">Chihuahua</option>
+                <option value="otro">Otro</option>
+            </select>
+            <label for="filtroEdad">Edad:</label>
+            <select id="filtroEdad" onchange="seleccionarEdad();">
+                <option value="edad">Edad</option>
+                <option value="cachorro">Cachorro</option>
+                <option value="adulto">Adulto</option>
+                <option value="otro">Otro</option>
+            </select>
+            <label for="filtroFecha" >Fecha de Desaparición:</label>
+            <input type="date" id="filtroFecha"  onchange="seleccionarFecha();"/>  <button id="boton-filtro">Enviar</button>
+            </div>
+        </section>
+        
+        <span id="idFiltrarAnimal"></span>
+        <br>
+        <span id="idCoincidencia"><br></span>
+
+        <div id="Mapa"></div>
+        
+{% endblock %}
+
+{% block jsad %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+{% endblock %}

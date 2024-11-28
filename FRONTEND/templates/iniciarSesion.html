@@ -1,21 +1,33 @@
 {% extends 'baseSesion.html'%}
 
-{%block estilo%} 
-<title>Iniciar Sesion</title>
+{% block estilo %} 
+<title>Iniciar Sesión</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesInicioSesion.css') }}">
 {% endblock %}
 
-    {% block formulario %} 
+{% block formulario %} 
+
+<section class="inicioSesion">
     <div class="inicioSesionContenedor">
+        <!-- Formulario de Inicio de Sesión -->
+        <form id="inicioSesionFormulario" method="POST" action="http://localhost:5000/usuarios/login">
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo" required>
+        
+            <label for="contrasni">Contraseña:</label>
+            <input type="password" id="contrasni" name="contrasni" placeholder="Ingresa tu contraseña" required>
+        
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        
+            <div class="registrarse">
+                ¿No tienes una cuenta? <a href="{{ url_for('registrarse') }}">Regístrate</a>
+            </div>
+    </div>
+</section>
 
-        <form id="inicioSesionFormulario" method="POST" action="{{ url_for('iniciarSesion') }}"></form>
-    {% endblock %}
+{% endblock %}
 
-            <button type="submit">{% block boton %} Iniciar Sesion {% endblock %}</button>
-            
-        {% block registrarse%} 
-        <div class="registrarse">
-            ¿No tenes una cuenta? <a href="{{ url_for('registrarse') }}">Registrate</a>
-        </div>
-
-     <script src="{{ url_for('static', filename='js/scriptInicioSesion.js') }}"></script>{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/scriptInicioSesion.js') }}"></script>
+{% endblock %}
