@@ -1,22 +1,14 @@
 .header_section {
-    position: fixed;
+    position:absolute;
     top: 0;
     width: 100%;
     z-index: 1000;
     background-color: #fafcfd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 5px 0; /* Reduce el espacio vertical */
-  }
-
-  /* Ajuste del contenedor para centrar los elementos */
-  .custom_nav-container .navbar {
-    align-items: center;
   }
 
   /* Tamaño de fuente y estilo de los elementos de navegación */
   .navbar-nav .nav-link {
-    font-size: 14px; /* Tamaño de fuente más pequeño */
-    padding: 0 10px; /* Reduce el espaciado horizontal */
     white-space: nowrap; /* Evita que el texto se divida en varios renglones */
   }
   
@@ -26,27 +18,30 @@
 
   /* Espacio para evitar superposición con el contenido principal */
   .main_content {
-    margin-top: 100px; /* Ajusta según la altura del header */
-
+    margin-top: 40px; /* Ajusta según la altura del header */
+    flex: 1;
   }
+
 body {
     font-family: Arial, sans-serif;
+    height: 85vh;
+    background-color: #669cff;
+}
+
+.inicioSesion {
+    margin-block: 20rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: auto;
-    background-color: #669cff;
-    padding: 50px;
 }
 
-.contenedor {
+.inicioSesionContenedor {
     background-color: white;
-    padding: 50px 25px;
+    padding: 22px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
 }
 
 .formulario {
@@ -57,10 +52,9 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     color: #333;
-    font-weight: 500;
 }
 
-.formulario input, .formulario textarea {
+input {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -68,12 +62,7 @@ label {
     font-size: 1rem;
 }
 
-.formulario textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.publicar {
+button {
     width: 100%;
     padding: 0.75rem;
     background-color: #559eff;
@@ -83,4 +72,23 @@ label {
     font-size: 1rem;
     cursor: pointer;
     margin-top: 1rem;
-} 
+}
+
+button:hover {
+    background-color: #669cff;
+}
+
+.registrarse {
+    text-align: center;
+    margin-top: 1rem;
+    color: #666;
+}
+
+.registrarse a {
+    color: #669cff;
+    text-decoration: none;
+}
+
+.registrarse a:hover {
+    text-decoration: underline;
+}

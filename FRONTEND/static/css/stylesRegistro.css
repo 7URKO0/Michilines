@@ -1,15 +1,22 @@
 .header_section {
-    position:absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     background-color: #fafcfd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px 0; /* Reduce el espacio vertical */
+  }
 
+  /* Ajuste del contenedor para centrar los elementos */
+  .custom_nav-container .navbar {
+    align-items: center;
   }
 
   /* Tamaño de fuente y estilo de los elementos de navegación */
   .navbar-nav .nav-link {
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    padding: 0 10px; /* Reduce el espaciado horizontal */
     white-space: nowrap; /* Evita que el texto se divida en varios renglones */
   }
   
@@ -20,77 +27,86 @@
   /* Espacio para evitar superposición con el contenido principal */
   .main_content {
     margin-top: 40px; /* Ajusta según la altura del header */
-    flex: 1;
 
   }
 
-
-
 body {
+    padding: 0;
+    min-height: 85vh;
+    background-color: #669cff;
     font-family: Arial, sans-serif;
+}
+
+.registro {
+    margin-block: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 50px;
-    background-color: #669cff;
 }
 
-.inicioSesionContenedor {
+.registroContenedor {
     background-color: white;
     padding: 22px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     width: 100%;
     max-width: 400px;
-    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .formulario {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 label {
     display: block;
     margin-bottom: 0.5rem;
     color: #333;
+    font-weight: 500;
 }
 
 input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.8rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
     font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: #669cff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
 button {
     width: 100%;
-    padding: 0.75rem;
-    background-color: #559eff;
+    padding: 0.8rem;
+    background-color: #669cff;
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s;
 }
 
 button:hover {
     background-color: #669cff;
 }
 
-.registrarse {
+.iniciarSesion {
     text-align: center;
     margin-top: 1rem;
-    color: #666;
+    color: #333;
 }
 
-.registrarse a {
+.iniciarSesion a {
     color: #669cff;
     text-decoration: none;
 }
 
-.registrarse a:hover {
+.iniciarSesion a:hover {
     text-decoration: underline;
 }

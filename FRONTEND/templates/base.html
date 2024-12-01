@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'css/bootstrap.css')}}" />
 
@@ -15,14 +19,12 @@
     <!--para el mapa con leaflet.js-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!--Por si quieren agregar mas estilos-->
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/stylesPublicarMascota.css') }}">
+    {% block estilo %} {% endblock %}
 
-    <title>Publicar Mascota Perdida</title>
-</head>
+    {% block titulo %} {% endblock %}
 
-<body>
-     <!-- header section strats -->
-     <header class="header_section">
+    <!-- header section strats -->
+    <header class="header_section">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
             <a class="navbar-brand" href="{{url_for('index')}}">
@@ -69,71 +71,66 @@
         </div>
       </header>
       <!-- end header section -->
-<div class="main_content">
-    <div class="contenedor">
-        <form id="formularioMascotaPerdida" enctype="multipart/form-data"> 
+</head>
+<body>
 
-
-
-            <div class="formulario">
-                <label for="nombreMascota">Nombre de la Mascota:</label>
-                <input type="text" class="Nombre" id="nombreMascota" required>
+    {% block contenido %} {% endblock %}
+    {% block scripts %}  {% endblock %}
+    <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="https://www.fi.uba.ar/institucional/sedes/paseo-colon">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
             </div>
-
-            <div class="formulario">
-                <label for="edadMascota">Edad de la Mascota:</label>
-                <input type="number" class="Edad" id="edadMascota" min="1" required>
+            <div class="detail-box">
+              <p>
+                Ubicacion
+              </p>
             </div>
-
-            <div class="formulario">
-                <label for="foto">Foto de la mascota:</label>
-                <input type="file" class="Foto" id="foto" accept="image/*">
+          </div>
+        </a>
+        <a href="https://github.com/camiAni/Michilines/tree/main">
+          <div class="item ">
+            <div class="img-box box-2">
+              
             </div>
-
-            <div class="formulario">
-
-                <label for="especie">Especie:</label>
-
-                <select class="formulario" id="especie" required>
-                    <option value="perro">Perro</option>
-                    <option value="gato">Gato</option>
-                    <option value="aaa">aaa</option>
-                    <option value="bbb">bbb</option>
-                    <option value="ccc">ccc</option>
-                </select>
+            <div class="detail-box">
+              <p>
+                Ver nuestro Proyecto
+              </p>
             </div>
-
-            <div class="formulario">
-
-                <label for="condicion">Condicion:</label>
-
-                <select class="formulario" id="condicion" required>
-                    <option value="Perdido">Perdido</option>
-                    <option value="Casa transitoria">Casa transitoria</option>
-                    <option value="Encontrado">Encontrado</option>
-                </select>
+          </div>
+        </a>
+        <a href="https://mail.google.com/mail/u/0/#inbox?compose=DmwnWrRlRQfpmJRDCHgXrtHtZnQcKLJtBfXbBwVSdsjXvDHSDZqgjzFlFqdXsGnBrTqwgqgQQPhq">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
             </div>
-
-            <!-- no se que caracteristicas agregar--> 
-
-            <div class="formulario">
-                <label for="descripcion">Descripción:</label>
-                <textarea class="Descripcion" id="descripcion" rows="3" required></textarea>
+            <div class="detail-box">
+              <p>
+                cwilverht@fi.uba.ar
+              </p>
             </div>
-
-            <div class="formulario">
-                <label for="fechaPerdida">Fecha de perdida:</label>
-                <input type="date" class="Fecha" id="fechaPerdida" required>
-            </div>
-
-            <div class="formulario">
-                <label for="ubicacion">ultima ubicación vista: (mapa tal vez?????)</label>
-                <!-- ver tema del mapa-->
-            </div>
-
-            <button type="submit" class="publicar">Publicar</button>
-
-        </form> 
+          </div>
+        </a>
+      </div>
     </div>
-</div>
+  </section>
+<!-- end info section -->
+<!-- footer section -->
+<section class="container-fluid footer_section">
+    <p>
+      &copy; 2019 All Rights Reserved By
+      <a href="https://html.design/">Free Html Templates</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+  <script type="text/javascript" src="{{url_for('static', filename = 'js/jquery-3.4.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.js')}}"></script>
+
 </body>
+</html> 

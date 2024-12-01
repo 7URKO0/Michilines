@@ -6,11 +6,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/galeria.css') }}">
 {% endblock %}
 
-</head>
-
 {% block contenido %} 
 <body>
-   
   <section class="gallery-section layout_padding">
     <div class="container">
       <div class="gallery-title">Galería de Mascotas</div>
@@ -26,19 +23,8 @@
       </div>
     </div>
 
-    <div class="container">
-      {% for id, mascota in mascotas.items() %}
-      <div class="img_box box-4 gallery-item {{ mascota['estado'] }}">
-        <img src="{{ url_for('static', filename=mascota['imagenUrl']) }}" alt="{{ mascota['nombre'] }}">
-        <div class="detail_box">
-          <h6>{{ mascota['nombre'] }}</h6>
-          <p>{{ mascota['descripcion'] }}</p>
-          <p><strong>Edad:</strong> {{ mascota['edad'] }}</p>
-          <p><strong>Raza:</strong> {{ mascota['raza'] }}</p>
-          <button class="btn btn-primary" onclick="window.location.href='{{ url_for('perfilMascota', id=id) }}'">Ver perfil</button>
-        </div>
-      </div>
-      {% endfor %}
+    <div class="container" id="gallery-container">
+      <!-- Aquí se cargarán dinámicamente las mascotas desde la API -->
     </div>
   </section>
 

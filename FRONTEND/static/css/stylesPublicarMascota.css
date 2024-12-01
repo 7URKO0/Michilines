@@ -1,0 +1,88 @@
+.header_section {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fafcfd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste del contenedor para centrar los elementos */
+.custom_nav-container .navbar {
+  align-items: center;
+}
+
+/* Tamaño de fuente y estilo de los elementos de navegación */
+.navbar-nav .nav-link {
+  font-size: 14px; /* Tamaño de fuente más pequeño */
+  padding: 0 10px; /* Reduce el espaciado horizontal */
+  white-space: nowrap; /* Evita que el texto se divida en varios renglones */
+}
+
+.navbar-brand{
+  margin-right: -10px;
+}
+
+/* Espacio para evitar superposición con el contenido principal */
+.main_content {
+  margin-top: 100px; /* Ajusta según la altura del header */
+  padding: 50px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 85vh;
+    background-color: #669cff;
+}
+
+.publicar {
+  margin-bottom: 19rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedor {
+  margin-top: 10rem;
+  background-color: white;
+  padding: 50px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.formulario {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.formulario input, .formulario textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.formulario textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.publicar {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #559eff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 1rem;
+} 

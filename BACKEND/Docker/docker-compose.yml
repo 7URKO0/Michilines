@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql
+    container_name: mysql_container
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_DATABASE: pawbase         
+      MYSQL_ROOT_PASSWORD: Powpatrol1.
+      MYSQL_USER: powpatrol           
+      MYSQL_PASSWORD: Powpatrol1.     
+    volumes:
+      - ../sql/init.sql:/docker-entrypoint-initdb.d/init.sql
