@@ -1,34 +1,38 @@
-function filterGalleryBySelect() {
-    // Captura de elementos una vez
-    const category = document.getElementById('categorySelect').value;
-    const items = Array.from(document.querySelectorAll('.gallery-item')); // Convertir a array para más flexibilidad
-    let visibleCount = 0; // Contador para elementos visibles
-  
-    items.forEach(item => {
-        if (category === 'all' || item.classList.contains(category)) {
-            item.style.display = 'block'; // Mostrar el elemento
-            visibleCount++;
-        } else {
-            item.style.display = 'none'; // Ocultar el elemento
-        }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener("click", async (event) => {
+            event.preventDefault();
+            console.log("Botón eliminar clickeado");
+
+            const mascotaBox = button.closest(".detail_box");
+            const id = mascotaBox.getAttribute("data-id");
+            console.log("ID de la mascota a eliminar:", id);
+
+            if (!confirm("¿Estás seguro de que deseas eliminar esta mascota?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/mascotas/${id}`, {
+                    method: "DELETE",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    mascotaBox.remove();
+                } else {
+                    console.error("Error del servidor:", result);
+                    alert("No se pudo eliminar la mascota. " + (result.message || ""));
+                }
+            } catch (error) {
+                console.error("Error en el cliente:", error);
+                alert("Ocurrió un error al intentar eliminar la mascota.");
+            }
+        });
     });
-  
-    // Mostrar un mensaje si no hay elementos visibles
-    const galleryContainer = document.getElementById('gallery-container');
-    const noResultsMessageId = 'no-results-message';
-    let noResultsMessage = document.getElementById(noResultsMessageId);
-  
-    if (visibleCount === 0) {
-        if (!noResultsMessage) {
-            noResultsMessage = document.createElement('p');
-            noResultsMessage.id = noResultsMessageId;
-            noResultsMessage.textContent = 'No hay mascotas en esta categoría.';
-            galleryContainer.appendChild(noResultsMessage);
-        }
-    } else {
-        if (noResultsMessage) {
-            noResultsMessage.remove();
-        }
-    }
-  }
-  
+});

@@ -9,31 +9,45 @@
 <section class="publicar">
     <div class="main_content">
         <div class="contenedor">
-          <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="{{ url_for('publicarMascotas') }}">
-            <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre de la mascota" required>
-            <input type="file" id="foto" name="foto" accept="image/*" required>
-            <select id="especie" name="especie" required>
-                <option value="perro">Perro</option>
-                <option value="gato">Gato</option>
-                <option value="otro">Otro</option>
-            </select>
-            <select id="condicion" name="condicion" required>
-                <option value="Perdido">Perdido</option>
-                <option value="Casa transitoria">Casa transitoria</option>
-                <option value="Encontrado">Encontrado</option>
-            </select>
-            <textarea id="descripcion" name="descripcion" placeholder="DescripciÃ³n de la mascota" required></textarea>
-            <input type="date" id="fechaPerdida" name="fecha_perdida" required>
-            <input type="hidden" id="latitud" name="latitud">
-            <input type="hidden" id="longitud" name="longitud">
-            <button type="submit">Publicar</button>
-         </form>
+            <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="http://127.0.0.1:5000/mascotas">
+                <label for="nombreMascota">Nombre:</label>
+                <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre de la mascota" required>
+            
+                <label for="foto">Foto:</label>
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+            
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="otro">Otro</option>
+                </select>
+            
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required>
+                    <option value="Perdido">Perdido</option>
+                    <option value="Casa transitoria">Casa transitoria</option>
+                    <option value="Encontrado">Encontrado</option>
+                </select>
+            
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Descripción de la mascota" required></textarea>
+            
+                <label for="zona">Zona:</label>
+                <input type="text" id="zona" name="zona" placeholder="Zona donde se perdió">
+            
+                <!-- Campo oculto para el mapa -->
+                <input type="hidden" id="latitud" name="latitud">
+                <input type="hidden" id="longitud" name="longitud">
+            
+                <button type="submit">Publicar</button>
+            </form>
         </div>
     </div>
 </section>
 {% endblock %}
 
 {% block script %}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="{{ url_for('static', filename='js/publicarmascota.js') }}"></script>
+    <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/publicarmascota.js') }}"></script> -->
 {% endblock %}

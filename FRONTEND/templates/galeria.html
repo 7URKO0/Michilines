@@ -9,29 +9,36 @@
 {% block contenido %} 
 <body>
   <section class="gallery-section layout_padding">
-    <div class="container">
-      <div class="gallery-title">Galería de Mascotas</div>
-
-      <div class="filter-select">
-        <label for="categorySelect">Filtrar por:</label>
-        <select id="categorySelect" onchange="filterGalleryBySelect()">
-          <option value="all">Todos</option>
-          <option value="Perdido">Perdidos</option>
-          <option value="Encontrado">Encontrados</option>
-          <option value="Transito">En Tránsito</option>
-        </select>
-      </div>
-    </div>
-
+    <div class="gallery-title">Galería de Mascotas</div>
     <div class="container" id="gallery-container">
-      <!-- Aquí se cargarán dinámicamente las mascotas desde la API -->
+      {% for mascota in mascotas %}
+        <div class="gallery-item {{ mascota['estado'] }}">
+          <div class="img_box">
+            {% if mascota.get('foto') %}
+              <img src="data:image/jpeg;base64,{{ mascota['foto'] }}" alt="Imagen de {{ mascota['nombre'] }}">
+            {% else %}
+              <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen de {{ mascota['nombre'] }}">
+            {% endif %}
+          </div>
+          <div class="detail_box" data-id="{{ mascota['id'] }}">
+            <h6>{{ mascota['nombre'] }}</h6>
+            <p>Tipo: {{ mascota['tipo'] }}</p>
+            <p>Estado: {{ mascota['estado'] }}</p>
+            <p>Descripción: {{ mascota['descripcion'] }}</p>
+            <p>Zona: {{ mascota['zona'] }}</p>
+            <button onclick="window.location.href='{{ url_for('perfilMascota', id=mascota['id']) }}'">Ver más</button>
+            <button class="delete-button">Eliminar</button>
+        </div>
+        
+        </div>
+      {% endfor %}
     </div>
   </section>
 
-  {% block scripts %} 
+  {% block scripts %}
   <script src="{{ url_for('static', filename='js/galeria.js') }}" defer></script>
   {% endblock %}
 
+
 </body>
 {% endblock %}
-</html>

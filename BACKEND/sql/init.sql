@@ -20,13 +20,22 @@ CREATE TABLE IF NOT EXISTS mascotas (
     tipo VARCHAR(100) NOT NULL,
     estado VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    foto BLOB,
+    foto MEDIUMBLOB,
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    comentario TEXT,
-    fecha_comentario DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_mascota INT NOT NULL,
+    id_usuario INT NOT NULL,
+    texto TEXT NOT NULL,
+    fecha_comentario DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_mascota) REFERENCES mascotas(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
+);
+
 
 -- Crear la tabla coordenadas
 CREATE TABLE IF NOT EXISTS coordenadas (
@@ -45,12 +54,12 @@ VALUES
 ('Victoria', 'Grumelli', 'vgrumelli@gmail.com', '$2b$12$LPa4thKImf7RtykmKNu2/uXMzd/r4PGzZIFXuf7kk9Wes4MaY7JCa'),
 ('Matias', 'Prestti', 'mprestti@gmail.com', '$2b$12$y1EsA9XFYP1FWkfq6tGczOxCQeJZqM9h91ED0grGyJcMHFB8YNkaG');
 
--- Insertar datos en la tabla mascotas
+/* -- Insertar datos en la tabla mascotas
 INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, zona, comentario)
 VALUES 
 (1, 'Luna', 'Gato', 'Perdida', 'Gato gris con ojos verdes.', 'Barrio Norte', 'Vi a Luna cerca de la plaza.'),
 (2, 'Tomi', 'Perro', 'Perdida', 'Perro labrador de color amarillo.', 'Villa Urquiza', NULL), 
-(3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.');
+(3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.'); */
 
 -- Insertar datos en la tabla coordenadas
 INSERT INTO coordenadas (nombre, direccion, latitud, longitud, especie)
