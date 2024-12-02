@@ -1,9 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
+from flask_bcrypt import Bcrypt
 from datetime import datetime
-
+import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+app.secret_key = 'clave-super-secreta'  # Misma clave que en el backend
+app.config['SESSION_COOKIE_DOMAIN'] = '127.0.0.1'
+app.config['SESSION_COOKIE_SECURE'] = False
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
+CORS(app)
+bcrypt = Bcrypt(app)
+CORS(app, supports_credentials=True)
+CORS(app)
 
 
 def get_db_connection():
@@ -45,104 +55,88 @@ def integrantes():
 
 @app.route('/galeria', methods=['GET'])
 def galeria():
-    connection = None
-    cursor = None
     try:
-        # Conecta a la base de datos
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor(dictionary=True)
-
-        # Consulta para obtener las mascotas
-        query = "SELECT * FROM mascotas"
-        cursor.execute(query)
-        mascotas = cursor.fetchall()
-
-        return render_template("galeria.html", mascotas=mascotas)
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return "Error al cargar la galería.", 500
-
-    finally:
-        # Cierra el cursor y la conexión si fueron inicializados
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+        response = requests.get('http://127.0.0.1:5000/mascotas')
+        if response.status_code == 200:
+            mascotas = response.json()
+            return render_template('galeria.html', mascotas=mascotas)
+        elif response.status_code == 404:
+            return render_template('galeria.html', mascotas=[], error="No se encontraron mascotas.")
+        else:
+            print(f"Error del backend: {response.status_code} - {response.text}")
+            return render_template('galeria.html', mascotas=[], error="Hubo un problema al cargar la galería.")
+    except Exception as e:
+        print(f"Error en galeria: {str(e)}")
+        return render_template('galeria.html', mascotas=[], error="No se pudo conectar con el backend.")
 
 
 
-# RUTA: Perfil de mascota
-@app.route('/perfil/<int:id>', methods=['GET'])
+
+
+@app.route('/perfil/<int:id>', methods=['GET', 'POST'])
 def perfilMascota(id):
     try:
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor(dictionary=True)
-        query = "SELECT * FROM mascotas WHERE id = %s"
-        cursor.execute(query, (id,))
-        mascota = cursor.fetchone()
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        mascota = None
-    finally:
-        cursor.close()
-        connection.close()
+        print("Sesión actual:", dict(session))
 
-    if mascota:
-        return render_template("perfilMascota.html", mascota=mascota)
-    else:
-        return render_template("404.html"), 404
+        if 'id_usuarios' not in session:
+            return redirect(url_for('iniciarSesion'))
+
+        # Obtener datos de la mascota
+        response_mascota = requests.get(f'http://127.0.0.1:5000/mascotas/{id}')
+        if response_mascota.status_code == 200:
+            mascota = response_mascota.json()
+        else:
+            return render_template("404.html"), 404
+
+        # Obtener comentarios de la mascota
+        response_comentarios = requests.get(f'http://127.0.0.1:5000/mascotas/{id}/comentarios')
+        comentarios = response_comentarios.json() if response_comentarios.status_code == 200 else []
+
+        # Manejar envío de nuevos comentarios
+        if request.method == 'POST':
+            comentario_texto = request.form.get('comentario')
+            if not comentario_texto:
+                error = "El comentario no puede estar vacío."
+                return render_template("perfilMascota.html", 
+                                       mascota=mascota, 
+                                       comentarios=comentarios, 
+                                       id=id, 
+                                       error=error)
+            
+            nuevo_comentario = {
+                "id_mascota": id,
+                "id_usuario": session.get('id_usuarios', None),
+                "texto": comentario_texto
+            }
+            response_post = requests.post('http://127.0.0.1:5000/comentarios', json=nuevo_comentario)
+            if response_post.status_code == 201:
+                return redirect(url_for('perfilMascota', id=id))
+            else:
+                error = "Error al guardar el comentario."
+                return render_template("perfilMascota.html", 
+                                       mascota=mascota, 
+                                       comentarios=comentarios, 
+                                       id=id, 
+                                       error=error)
+
+        return render_template("perfilMascota.html", 
+                               mascota=mascota, 
+                               comentarios=comentarios, 
+                               id=id, 
+                               session=dict(session))
+    except Exception as e:
+        print(f"Error en perfilMascota: {str(e)}")
+        return f"Error al cargar el perfil de la mascota: {str(e)}", 500
+
+
+
+
+
+
 
 # RUTA: Publicar una mascota perdida
-@app.route('/publicarMascotas', methods=['GET', 'POST'])
+@app.route('/publicarMascotas', methods=['GET'])
 def publicarMascotas():
-    if request.method == 'POST':
-        # Captura datos del formulario
-        id_usuario = 1  # Cambia esto para usar el ID del usuario autenticado
-        nombre = request.form.get('nombre')
-        tipo = request.form.get('especie')
-        estado = request.form.get('condicion')
-        descripcion = request.form.get('descripcion')
-        zona = request.form.get('zona', 'No especificada')  # Agrega 'zona' si la tienes en el formulario
-        fecha_perdida = request.form.get('fecha_perdida')
-        comentario = request.form.get('comentario', None)
-
-        # Procesar la foto como BLOB
-        foto = request.files.get('foto')
-        foto_blob = foto.read() if foto else None
-
-        # Inicializa las variables para el cursor y la conexión
-        connection = None
-        cursor = None
-
-        try:
-            # Conecta a la base de datos
-            connection = mysql.connector.connect(**db_config)
-            cursor = connection.cursor()
-
-            # Insertar datos en la tabla `mascotas`
-            query = """
-                INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion, comentario)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(query, (
-                id_usuario, nombre, tipo, estado, descripcion, foto_blob, zona, fecha_perdida, comentario
-            ))
-            connection.commit()
-            mensaje = "La mascota se ha publicado con éxito."
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            mensaje = "Ocurrió un error al publicar la mascota. Intenta de nuevo."
-        finally:
-            # Cierra el cursor y la conexión si fueron inicializados
-            if cursor:
-                cursor.close()
-            if connection:
-                connection.close()
-
-        return render_template("publicarMascotas.html", mensaje=mensaje)
-
-    # Si es una solicitud GET, renderiza el formulario
     return render_template('publicarMascotas.html')
 
 

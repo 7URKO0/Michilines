@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block titulo %} <title>Perfil de {{ mascota.nombre }}</title> {% endblock %}
+{% block titulo %} 
+<title>Perfil de {{ mascota.nombre }}</title> 
+{% endblock %}
     
 {% block estilo %} 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilMascota.css') }}">
@@ -12,13 +14,18 @@
         <!-- Información de la mascota -->
         <div class="perfil-contenedor">
             <div class="imagen">
-                <img src="{{ mascota.imagen_url }}" alt="Imagen de {{ mascota.nombre }}">
+                {% if mascota.foto %}
+                    <img src="data:image/jpeg;base64,{{ mascota.foto }}" alt="Imagen de {{ mascota.nombre }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen no disponible">
+                {% endif %}
             </div>
             <div class="informacion">
                 <h1>{{ mascota.nombre }}</h1>
                 <p>{{ mascota.descripcion }}</p>
                 <hr>
-                <p><strong>Raza:</strong> {{ mascota.raza }}</p>
+                <p><strong>Tipo:</strong> {{ mascota.tipo }}</p>
+                <p><strong>Estado:</strong> {{ mascota.estado }}</p>
                 <p><strong>Zona:</strong> {{ mascota.zona }}</p>
             </div>
         </div>
@@ -26,16 +33,25 @@
         <!-- Sección de comentarios -->
         <div class="comentarios">
             <h2>Comentarios</h2>
-            {% if mascota.comentarios %}
-                {% for comentario in mascota.comentarios %}
+            {% if comentarios %}
+                {% for comentario in comentarios %}
                 <div class="comentario">
-                    <p>{{ comentario }}</p>
+                    <p>
+                        <strong>{{ comentario.usuario }}:</strong> {{ comentario.comentario }}
+                    </p>
                 </div>
                 {% endfor %}
             {% else %}
                 <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
             {% endif %}
-        </div>        
+        </div>     
+
+        <!-- Mensaje de error (si existe) -->
+        {% if error %}
+        <div class="error-mensaje">
+            <p style="color: red;">{{ error }}</p>
+        </div>
+        {% endif %}
 
         <!-- Formulario para añadir comentarios -->
         <div class="comentarios">
@@ -46,5 +62,13 @@
             </form>
         </div>
     </div>
+
+    <!-- Información adicional de la sesión (opcional, para depuración o mostrar info de usuario) -->
+    {% if session %}
+    <div class="usuario-info">
+        <p><strong>Usuario autenticado:</strong> {{ session['nombre'] }}</p>
+        <p><strong>ID de usuario:</strong> {{ session['id_usuarios'] }}</p>
+    </div>
+    {% endif %}
 </body>
 {% endblock %}
