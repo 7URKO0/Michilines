@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS mascotas (
     tipo VARCHAR(100) NOT NULL,
     estado VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    foto MEDIUMBLOB,
+    foto LONGTEXT,
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE

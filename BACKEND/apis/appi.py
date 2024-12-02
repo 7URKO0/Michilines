@@ -115,18 +115,68 @@ def obtener_mascotas():
             cursor.execute(query)
             resultado = cursor.fetchall()
 
-            for mascota in resultado:
-                if mascota.get('foto'):
-                    mascota['foto'] = base64.b64encode(mascota['foto']).decode('utf-8')
-                else:
-                    mascota['foto'] = None  # Si no hay imagen, deja `None`
+            mascotas = []
+            for row in resultado:
+                mascota = {
+                    'id': row['id'],
+                    'nombre': row['nombre'],
+                    'tipo': row['tipo'],
+                    'estado': row['estado'],
+                    'descripcion': row['descripcion'],
+                    'zona': row['zona'],
+                    'foto': row['foto']  # La foto ya está en base64
+                }
+                mascotas.append(mascota)
 
-            return jsonify(resultado), 200
+            return jsonify(mascotas), 200
     except Exception as e:
         print(f"Error en obtener_mascotas: {e}")
         return jsonify({'message': f'Error al obtener mascotas: {str(e)}'}), 500
     finally:
         connection.close()
+
+
+
+import base64
+
+@app.route('/mascotas/<int:id>', methods=['GET'])
+def obtener_perfil_mascota(id):
+    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas WHERE id = %s;"
+    try:
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                # Verificar y manejar el campo foto correctamente
+                if resultado['foto']:
+                    if isinstance(resultado['foto'], bytes):  # Si es binario, codificar a Base64
+                        foto = base64.b64encode(resultado['foto']).decode('utf-8')
+                    else:
+                        foto = resultado['foto']  # Si ya es un string, asumir que es Base64
+                else:
+                    foto = None
+
+                mascota = {
+                    "id": resultado['id'],
+                    "nombre": resultado['nombre'],
+                    "tipo": resultado['tipo'],
+                    "estado": resultado['estado'],
+                    "descripcion": resultado['descripcion'],
+                    "zona": resultado['zona'],
+                    "foto": foto
+                }
+                return jsonify(mascota), 200
+            else:
+                return jsonify({'message': 'Mascota no encontrada'}), 404
+    except Exception as e:
+        print(f"Error en obtener_perfil_mascota: {e}")
+        return jsonify({'message': f'Error al obtener perfil de la mascota: {str(e)}'}), 500
+    finally:
+        connection.close()
+
+
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Comentarios ---
@@ -175,28 +225,8 @@ def agregar_comentario():
     finally:
         connection.close()
 
+    
 
-@app.route('/mascotas/<int:id>', methods=['GET'])
-def obtener_perfil_mascota(id):
-    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas WHERE id = %s;"
-    try:
-        connection = get_db_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(query, (id,))
-            resultado = cursor.fetchone()
-
-            if resultado:
-                if resultado.get('foto'):
-                    resultado['foto'] = base64.b64encode(resultado['foto']).decode('utf-8')
-                return jsonify(resultado), 200
-            else:
-                return jsonify({'message': 'Mascota no encontrada'}), 404
-    except Exception as e:
-        print(f"Error en obtener_perfil_mascota: {e}")
-        return jsonify({'message': f'Error al obtener perfil de la mascota: {str(e)}'}), 500
-    finally:
-        connection.close()
-        
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Usuarios ---
 @app.route('/usuarios', methods=['POST'])
@@ -288,23 +318,7 @@ def logout_usuario():
     return redirect('http://127.0.0.1:3609/login')
 
 
-@app.route('/mascotas/<int:id>/foto', methods=['GET'])
-def obtener_foto(id):
-    try:
-        connection = get_db_connection()
-        with connection.cursor() as cursor:
-            query = "SELECT foto FROM mascotas WHERE id = %s"
-            cursor.execute(query, (id,))
-            resultado = cursor.fetchone()
-            if resultado and resultado['foto']:
-                with open(f"foto_{id}.jpg", "wb") as f:
-                    f.write(resultado['foto'])
-                return send_file(f"foto_{id}.jpg", mimetype='image/jpeg')
-            else:
-                return jsonify({"message": "Foto no encontrada"}), 404
-    except Exception as e:
-        return jsonify({"message": f"Error al obtener foto: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
-   app.run("127.0.0.1",debug=True, port=5000)
+   app.run("127.0.0.1",debug=True, port=5001)
