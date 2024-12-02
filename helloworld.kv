@@ -1,0 +1,150 @@
+#:kivy 2.3.0
+
+<MyRoot>:
+    ScreenManager:
+        id: screen_manager
+        Screen:
+            name: 'main'
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        source: 'assets/images/Bobby.png'
+                Label:
+                    id: hello_world_label
+                    text: "Michilines"
+                    font_name: "Montserrat"
+                    font_size: 50
+                    color: (234/255, 114/255, 0/255, 1)
+                Button:
+                    text: "Publicar Mascota"
+                    font_size: 24
+                    size_hint: 0.5, 0.1
+                    pos_hint: {'center_x': 0.5}
+                    on_press: root.goto_form()
+                Button:
+                    text: "Galería"
+                    font_size: 24
+                    size_hint: 0.5, 0.1
+                    pos_hint: {'center_x': 0.5}
+                    on_press: root.goto_gallery()
+
+        Screen:
+            name: 'form'
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 20
+                spacing: 10
+                
+                Label:
+                    text: 'Formulario Mascota'
+                    font_size: 30
+                    size_hint_y: None
+                    height: 50
+                
+                # Image preview and selection
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: 200
+                    
+                    Image:
+                        id: preview_image
+                        source: 'assets/images/pet_placeholder.jpg'
+                        size_hint_y: None
+                        height: 150
+                    
+                    Button:
+                        text: 'Seleccionar Imagen'
+                        size_hint: (0.5, None)
+                        height: 40
+                        pos_hint: {'center_x': 0.5}
+                        on_press: root.show_file_chooser()
+                
+                TextInput:
+                    id: nombre_mascota
+                    hint_text: 'Nombre de la mascota'
+                    multiline: False
+                    size_hint_y: None
+                    height: 40
+                
+                TextInput:
+                    id: edad_mascota
+                    hint_text: 'Edad'
+                    multiline: False
+                    size_hint_y: None
+                    height: 40
+                
+                TextInput:
+                    id: tipo_mascota
+                    hint_text: 'Tipo de mascota (perro/gato/etc)'
+                    multiline: False
+                    size_hint_y: None
+                    height: 40
+                
+                TextInput:
+                    id: ubicacion
+                    hint_text: 'Última ubicación vista'
+                    multiline: False
+                    size_hint_y: None
+                    height: 40
+                
+                Spinner:
+                    id: estado
+                    text: 'Estado'
+                    values: ['Perdido', 'En casa de tránsito']
+                    size_hint_y: None
+                    height: 40
+                
+                TextInput:
+                    id: descripcion
+                    hint_text: 'Descripción (características, señas particulares...)'
+                    multiline: True
+                    size_hint_y: None
+                    height: 100
+                
+                Button:
+                    text: 'Enviar'
+                    size_hint: 0.3, None
+                    height: 50
+                    pos_hint: {'center_x': 0.5}
+                    on_press: root.submit_form()
+                
+                Button:
+                    text: 'Volver'
+                    size_hint: 0.3, None
+                    height: 50
+                    pos_hint: {'center_x': 0.5}
+                    on_press: root.goto_main()
+
+        Screen:
+            name: 'gallery'
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 10
+                spacing: 10
+                
+                Label:
+                    text: 'Galería de Mascotas'
+                    font_size: 30
+                    size_hint_y: None
+                    height: 50
+                
+                ScrollView:
+                    GridLayout:
+                        id: gallery_grid
+                        cols: 2
+                        spacing: 10
+                        padding: 10
+                        size_hint_y: None
+                        height: self.minimum_height
+                
+                Button:
+                    text: 'Volver'
+                    size_hint: (0.3, None)
+                    height: 50
+                    pos_hint: {'center_x': 0.5}
+                    on_press: root.goto_main()
+
