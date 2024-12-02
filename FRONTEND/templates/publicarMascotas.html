@@ -35,6 +35,9 @@
             
                 <label for="zona">Zona:</label>
                 <input type="text" id="zona" name="zona" placeholder="Zona donde se perdió">
+
+                <div id="map"></div>
+                <p id="coordinates">Latitud: --, Longitud: --</p>
             
                 <!-- Campo oculto para el mapa -->
                 <input type="hidden" id="latitud" name="latitud">
@@ -42,12 +45,13 @@
             
                 <button type="submit">Publicar</button>
             </form>
+            <p id="status"></p>
         </div>
     </div>
 </section>
 {% endblock %}
 
 {% block script %}
-    <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="{{ url_for('static', filename='js/publicarmascota.js') }}"></script> -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="{{url_for('static', filename = 'js/mapa.js')}}"></script>
 {% endblock %}

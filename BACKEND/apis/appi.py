@@ -46,7 +46,12 @@ def agregar_mascota():
         estado = request.form.get('estado')
         descripcion = request.form.get('descripcion')
         zona = request.form.get('zona', 'No especificada')
+        latitud = request.form.get('latitud')
+        longitud = request.form.get('longitud')
 
+        # Validar que las coordenadas estén presentes
+        if not latitud or not longitud:
+            return jsonify({"message": "Coordenadas no proporcionadas"}), 400
         # Verificar archivo recibido
         foto = request.files.get('foto')
         if foto:
@@ -60,6 +65,8 @@ def agregar_mascota():
 
         if not all([nombre, tipo, estado, descripcion]):
             return jsonify({"message": "Faltan datos obligatorios"}), 400
+        
+
 
         # Guardar en base de datos
         query = """
@@ -71,6 +78,26 @@ def agregar_mascota():
         connection = get_db_connection()
         with connection.cursor() as cursor:
             cursor.execute(query, valores)
+
+            # Insertar coordenada en la tabla 'coordenadas'
+            coordenadas_query = """
+                INSERT INTO coordenadas (latitud, longitud)
+                VALUES (%s, %s)
+            """
+            coordenadas_valores = (latitud, longitud)
+            cursor.execute(coordenadas_query, coordenadas_valores)
+
+            # Obtener el ID de la coordenada insertada
+            id_coordenada = cursor.lastrowid
+
+            # Insertar mascota en la tabla 'mascotas' incluyendo el ID de coordenada
+            query = """
+                INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion, id_coordenada)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), %s)
+            """
+            valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona, id_coordenada)
+            cursor.execute(query, valores)
+
             connection.commit()
 
         return jsonify({"message": "Mascota publicada exitosamente"}), 201
@@ -108,7 +135,13 @@ def eliminar_mascota(id):
 
 @app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
-    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas;"
+    #Esto realiza una union entre la tabla mascotas(m) y la tabla coordenadas(c), usando el campo id_coordenada de la tabla mascotas para obtener las coordenadas de cada mascota.
+    query = """
+        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
+        FROM mascotas m
+        JOIN coordenadas c ON m.id_coordenada = c.id_coordenada;
+    """
+    
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -178,7 +211,12 @@ def agregar_comentario():
 
 @app.route('/mascotas/<int:id>', methods=['GET'])
 def obtener_perfil_mascota(id):
-    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas WHERE id = %s;"
+    query = """
+        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
+        FROM mascotas m
+        JOIN coordenadas c ON m.id_coordenada = c.id_coordenada
+        WHERE m.id = %s;
+    """
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
