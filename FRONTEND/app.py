@@ -42,7 +42,7 @@ def index():
 
 @app.route('/integrantes')
 def integrantes():
-    datos_integrantes = [
+    datosIntegrantes = [
         {"nombre": "Camila Pratto", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona1.png"},
         {"nombre": "Camila Anahi Wilverht Rohr", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona2.png"},
         {"nombre": "Francisca Gaillard", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona3.png"},
@@ -50,9 +50,9 @@ def integrantes():
         {"nombre": "Lara Ovejero", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona5.png"},
         {"nombre": "Matias Rigano", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona6.png"},
         {"nombre": "Victor Oliva", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona7.png"},
-        {"nombre": "Leonel Chaves", "descripcion": "Profesor en la UBA y corrector del proyecto.", "imagenUrl": "imagenes/persona8.png"},
+        {"nombre": "Leonel Chaves", "descripcion": "Profesor en la UBA y corrector del proyecto.", "imagenUrl": "imagenes/leo.jpg"},
     ]
-    return render_template("integrantes.html", datos_integrantes=datos_integrantes)
+    return render_template("integrantes.html", datosIntegrantes=datosIntegrantes)
 
 @app.route('/galeria', methods=['GET'])
 def galeria():

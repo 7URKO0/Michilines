@@ -118,9 +118,7 @@ def eliminar_mascota(id):
 """ BIEN """
 @app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
-
     query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas;"
-
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -241,6 +239,7 @@ def agregar_comentario():
         connection.close()
 
     
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Usuarios ---
 """ BIEN """
