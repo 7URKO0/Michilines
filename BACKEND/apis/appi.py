@@ -332,8 +332,21 @@ def logout_usuario():
     session.clear()  # Limpiar todas las variables de sesión
     return redirect('http://127.0.0.1:3609/login')
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --- Rutas para Kivy ---
 
-
-
+@app.route("/api/mascotas-kivy", methods=["GET"])
+def mascotas_para_kivy():
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT nombre, descripcion, foto, zona, latitud, longitud FROM mascotas")
+            mascotas = cursor.fetchall()
+        return jsonify(mascotas)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        connection.close()
 if __name__ == '__main__':
-   app.run("127.0.0.1",debug=True, port=5001)
+    app.run(host="0.0.0.0", debug=True, port=5001)
+
