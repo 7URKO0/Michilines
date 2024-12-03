@@ -1,38 +1,39 @@
+deleteButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+        event.preventDefault();
 
-document.addEventListener("DOMContentLoaded", () => {
-    const deleteButtons = document.querySelectorAll(".delete-button");
+        const mascotaBox = button.closest(".detail_box");
+        const id = mascotaBox?.getAttribute("data-id");
 
-    deleteButtons.forEach((button) => {
-        button.addEventListener("click", async (event) => {
-            event.preventDefault();
-            console.log("Botón eliminar clickeado");
+        if (!id) {
+            console.error("Error: No se encontró el atributo data-id.");
+            return;
+        }
 
-            const mascotaBox = button.closest(".detail_box");
-            const id = mascotaBox.getAttribute("data-id");
-            console.log("ID de la mascota a eliminar:", id);
+        console.log(`Enviando solicitud DELETE para ID: ${id}`);
 
-            if (!confirm("¿Estás seguro de que deseas eliminar esta mascota?")) {
+        try {
+            const response = await fetch(`/mascotas/${id}`, {
+                method: "DELETE",
+            });
+
+            console.log("Respuesta del servidor:", response);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Error en la respuesta del servidor:", errorData);
+                alert(`Error: ${errorData.message}`);
                 return;
             }
 
-            try {
-                const response = await fetch(`/mascotas/${id}`, {
-                    method: "DELETE",
-                });
+            const result = await response.json();
+            console.log("Mascota eliminada exitosamente:", result);
+            alert(result.message);
 
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert(result.message);
-                    mascotaBox.remove();
-                } else {
-                    console.error("Error del servidor:", result);
-                    alert("No se pudo eliminar la mascota. " + (result.message || ""));
-                }
-            } catch (error) {
-                console.error("Error en el cliente:", error);
-                alert("Ocurrió un error al intentar eliminar la mascota.");
-            }
-        });
+            mascotaBox.remove();
+        } catch (error) {
+            console.error("Error en el cliente:", error);
+            alert("Ocurrió un error al intentar eliminar la mascota.");
+        }
     });
 });

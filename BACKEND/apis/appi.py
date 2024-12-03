@@ -93,36 +93,53 @@ def agregar_mascota():
 @app.route('/mascotas/<int:id>', methods=['DELETE'])
 def eliminar_mascota(id):
     if 'id_usuarios' not in session:
-        print("Usuario no autenticado.")
         return jsonify({"auth": False, "message": "Usuario no autenticado"}), 401
 
-    query = "DELETE FROM mascotas WHERE id = %s"
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
-            cursor.execute(query, (id,))
-            connection.commit()
-            if cursor.rowcount == 0:
-                print(f"Mascota con ID {id} no encontrada.")
+            # Verificar si la mascota existe
+            cursor.execute("SELECT * FROM mascotas WHERE id = %s", (id,))
+            mascota = cursor.fetchone()
+            if not mascota:
                 return jsonify({"message": "Mascota no encontrada"}), 404
-            print(f"Mascota con ID {id} eliminada exitosamente.")
-        return jsonify({"message": "Mascota eliminada exitosamente"}), 200
+
+            # Eliminar la mascota
+            cursor.execute("DELETE FROM mascotas WHERE id = %s", (id,))
+            connection.commit()
+
+            return jsonify({"message": "Mascota eliminada exitosamente"}), 200
     except Exception as e:
-        print(f"Error en eliminar_mascota: {e}")
-        return jsonify({'message': f'Error al eliminar mascota: {str(e)}'}), 500
+        print(f"Error al eliminar la mascota con ID {id}: {e}")
+        return jsonify({'message': f'Error interno: {str(e)}'}), 500
     finally:
-        connection.close()
+        if connection:
+            connection.close()
 
 
 
 """ BIEN """
 @app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
-    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas;"
+    # Obtener filtros desde la URL
+    tipo = request.args.get('tipo', None)
+    estado = request.args.get('estado', None)
+
+    # Construir la consulta con filtros dinámicos
+    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas WHERE 1=1"
+    params = []
+
+    if tipo:
+        query += " AND tipo = %s"
+        params.append(tipo)
+    if estado:
+        query += " AND estado = %s"
+        params.append(estado)
+
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(query, tuple(params))
             resultado = cursor.fetchall()
 
             mascotas = []
@@ -134,7 +151,7 @@ def obtener_mascotas():
                     'estado': row['estado'],
                     'descripcion': row['descripcion'],
                     'zona': row['zona'],
-                    'foto': row['foto']  # La foto ya está en base64
+                    'foto': row['foto']
                 }
                 mascotas.append(mascota)
 
@@ -144,6 +161,8 @@ def obtener_mascotas():
         return jsonify({'message': f'Error al obtener mascotas: {str(e)}'}), 500
     finally:
         connection.close()
+
+
 
 
 

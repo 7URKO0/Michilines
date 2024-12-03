@@ -14,7 +14,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
 CORS(app)
 bcrypt = Bcrypt(app)
 CORS(app, supports_credentials=True)
-CORS(app)
+
 
 
 def get_db_connection():
@@ -56,8 +56,20 @@ def integrantes():
 
 @app.route('/galeria', methods=['GET'])
 def galeria():
+    # Obtener los filtros del formulario
+    tipo = request.args.get('tipo', None)
+    estado = request.args.get('estado', None)
+
+    # Construir la URL para el backend con los filtros
+    backend_url = 'http://127.0.0.1:5001/mascotas'
+    params = {}
+    if tipo:
+        params['tipo'] = tipo
+    if estado:
+        params['estado'] = estado
+
     try:
-        response = requests.get('http://127.0.0.1:5001/mascotas')
+        response = requests.get(backend_url, params=params)
         if response.status_code == 200:
             mascotas = response.json()
             return render_template('galeria.html', mascotas=mascotas)
@@ -69,6 +81,8 @@ def galeria():
     except Exception as e:
         print(f"Error en galeria: {str(e)}")
         return render_template('galeria.html', mascotas=[], error="No se pudo conectar con el backend.")
+
+
 
 @app.route('/perfil/<int:id>', methods=['GET', 'POST'])
 def perfilMascota(id):

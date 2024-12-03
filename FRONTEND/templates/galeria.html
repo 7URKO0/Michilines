@@ -7,31 +7,53 @@
 {% endblock %}
 
 {% block contenido %} 
+<div class="filter-section">
+  <form id="filter-form" method="GET" action="{{ url_for('galeria') }}">
+    <label for="tipo">Tipo:</label>
+    <select name="tipo" id="tipo">
+      <option value="">Todos</option>
+      <option value="Perro">Perro</option>
+      <option value="Gato">Gato</option>
+      <option value="Conejo">Conejo</option>
+      <!-- Agrega más tipos según corresponda -->
+    </select>
+
+    <label for="estado">Estado:</label>
+    <select name="estado" id="estado">
+      <option value="">Todos</option>
+      <option value="Perdido">Perdido</option>
+      <option value="Casa transitoria">Casa transitoria</option>
+      <option value="Encontrado">Encontrado</option>
+    </select>
+
+    <button type="submit">Filtrar</button>
+  </form>
+</div>
 <body>
   <section class="gallery-section layout_padding">
     <div class="gallery-title">Galería de Mascotas</div>
     <div class="container" id="gallery-container">
       {% for mascota in mascotas %}
-        <div class="gallery-item {{ mascota['estado'] }}">
-          <div class="img_box">
-            {% if mascota.get('foto') %}
-              <img src="data:image/jpg;base64,{{ mascota['foto'] }}" alt="Imagen de {{ mascota['nombre'] }}">
-            {% else %}
-              <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen de {{ mascota['nombre'] }}">
-            {% endif %}
-          </div>
-          <div class="detail_box" data-id="{{ mascota['id'] }}">
-            <h6>{{ mascota['nombre'] }}</h6>
-            <p>Tipo: {{ mascota['tipo'] }}</p>
-            <p>Estado: {{ mascota['estado'] }}</p>
-            <p>Descripción: {{ mascota['descripcion'] }}</p>
-            <p>Zona: {{ mascota['zona'] }}</p>
-            <button onclick="window.location.href='{{ url_for('perfilMascota', id=mascota['id']) }}'">Ver más</button>
-            <button class="delete-button">Eliminar</button>
-        </div>
-        
-        </div>
-      {% endfor %}
+<div class="gallery-item {{ mascota['estado'] }}">
+    <div class="img_box">
+        {% if mascota.get('foto') %}
+            <img src="data:image/jpg;base64,{{ mascota['foto'] }}" alt="Imagen de {{ mascota['nombre'] }}">
+        {% else %}
+            <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen de {{ mascota['nombre'] }}">
+        {% endif %}
+    </div>
+    <div class="detail_box" data-id="{{ mascota['id'] }}">
+        <h6>{{ mascota['nombre'] }}</h6>
+        <p>Tipo: {{ mascota['tipo'] }}</p>
+        <p>Estado: {{ mascota['estado'] }}</p>
+        <p>Descripción: {{ mascota['descripcion'] }}</p>
+        <p>Zona: {{ mascota['zona'] }}</p>
+        <button onclick="window.location.href='{{ url_for('perfilMascota', id=mascota['id']) }}'">Ver más</button>
+        <button class="delete-button">Eliminar</button>
+    </div>
+</div>
+{% endfor %}
+
     </div>
   </section>
 
