@@ -90,31 +90,27 @@ def agregar_mascota():
 
 
 
-@app.route('/mascotas/<int:id>', methods=['DELETE'])
+""" @app.route('/galeria/eliminar/<int:id>', methods=['POST'])
 def eliminar_mascota(id):
-    if 'id_usuarios' not in session:
-        return jsonify({"auth": False, "message": "Usuario no autenticado"}), 401
+    backend_url = f'http://127.0.0.1:5001/mascotas/{id}'
 
     try:
-        connection = get_db_connection()
-        with connection.cursor() as cursor:
-            # Verificar si la mascota existe
-            cursor.execute("SELECT * FROM mascotas WHERE id = %s", (id,))
-            mascota = cursor.fetchone()
-            if not mascota:
-                return jsonify({"message": "Mascota no encontrada"}), 404
+        # Realizar la solicitud DELETE al backend
+        response = requests.delete(backend_url)
 
-            # Eliminar la mascota
-            cursor.execute("DELETE FROM mascotas WHERE id = %s", (id,))
-            connection.commit()
-
+        if response.status_code == 200:
+            print(f"Mascota con ID {id} eliminada exitosamente.")
             return jsonify({"message": "Mascota eliminada exitosamente"}), 200
+        elif response.status_code == 404:
+            print(f"Mascota con ID {id} no encontrada.")
+            return jsonify({"message": "Mascota no encontrada"}), 404
+        else:
+            print(f"Error al eliminar la mascota: {response.status_code} - {response.text}")
+            return jsonify({"message": "Error al eliminar la mascota."}), 500
     except Exception as e:
-        print(f"Error al eliminar la mascota con ID {id}: {e}")
-        return jsonify({'message': f'Error interno: {str(e)}'}), 500
-    finally:
-        if connection:
-            connection.close()
+        print(f"Error en la conexión con el backend: {e}")
+        return jsonify({"message": f"Error al conectar con el backend: {str(e)}"}), 500
+ """
 
 
 

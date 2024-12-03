@@ -37,3 +37,38 @@ deleteButtons.forEach((button) => {
         }
     });
 });
+deleteButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const mascotaBox = button.closest(".detail_box");
+        const id = mascotaBox?.getAttribute("data-id");
+
+        if (!id) {
+            console.error("ID no encontrado en el atributo data-id.");
+            return;
+        }
+
+        if (!confirm("¿Estás seguro de que deseas eliminar esta mascota?")) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/galeria/eliminar/${id}`, {
+                method: "POST",
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+                mascotaBox.remove();
+            } else {
+                console.error("Error del servidor:", result);
+                alert("No se pudo eliminar la mascota. " + (result.message || ""));
+            }
+        } catch (error) {
+            console.error("Error en el cliente:", error);
+            alert("Ocurrió un error al intentar eliminar la mascota.");
+        }
+    });
+});
