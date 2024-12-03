@@ -47,7 +47,7 @@ def integrantes():
         {"nombre": "Camila Anahi Wilverht Rohr", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona2.png"},
         {"nombre": "Francisca Gaillard", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona3.png"},
         {"nombre": "Ignacio Cettour", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona4.png"},
-        {"nombre": "Lara Ovejero", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona5.png"},
+        {"nombre": "Lara Ovejero", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona2.png"},
         {"nombre": "Matias Rigano", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona6.png"},
         {"nombre": "Victor Oliva", "descripcion": "Ingeniería en Informática", "imagenUrl": "imagenes/persona7.png"},
         {"nombre": "Leonel Chaves", "descripcion": "Profesor en la UBA y corrector del proyecto.", "imagenUrl": "imagenes/leo.jpg"},
