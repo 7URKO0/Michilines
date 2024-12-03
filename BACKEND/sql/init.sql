@@ -20,12 +20,12 @@ CREATE TABLE IF NOT EXISTS mascotas (
     tipo VARCHAR(100) NOT NULL,
     estado VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    foto LONGBLOB,
+    foto LONGTEXT,
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    id_coordenada INT NOT NULL,
-    FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE,
-    FOREIGN KEY (id_coordenada) REFERENCES coordenadas(id_coordenada) ON DELETE CASCADE
+    latitud DECIMAL(10, 8) NOT NULL,
+    longitud DECIMAL(11, 8) NOT NULL,
+    FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comentarios (
@@ -38,13 +38,6 @@ CREATE TABLE IF NOT EXISTS comentarios (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
 
-
--- Crear la tabla coordenadas
-CREATE TABLE IF NOT EXISTS coordenadas (
-    id_coordenada INT AUTO_INCREMENT PRIMARY KEY,
-    latitud DECIMAL(10, 8) NOT NULL,
-    longitud DECIMAL(11, 8) NOT NULL
-);
 
 -- Insertar datos en la tabla usuarios
 INSERT INTO usuarios (nombre, apellido, correo, contrasni) 
@@ -60,9 +53,10 @@ VALUES
 (2, 'Tomi', 'Perro', 'Perdida', 'Perro labrador de color amarillo.', 'Villa Urquiza', NULL), 
 (3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.'); */
 
--- Insertar datos en la tabla coordenadas
-INSERT INTO coordenadas (direccion, latitud, longitud)
+/* -- Insertar datos en la tabla coordenadas
+INSERT INTO coordenadas (nombre, direccion, latitud, longitud, especie)
 VALUES 
-('Av. Paseo Colón 250, C1054', -34.610631, -58.369250),
-('Av. Rivadavia 717, C1002AAF', -34.608131, -58.376856),
-('Jeanette Campbell 4581', -34.675994, -58.455311);
+('domi', 'Av. Paseo Colón 250, C1054', -34.610631, -58.369250, 'gato'),
+('fer', 'Av. Rivadavia 717, C1002AAF', -34.608131, -58.376856, 'gato'),
+('yai', 'Jeanette Campbell 4581', -34.675994, -58.455311, 'perro');
+ */

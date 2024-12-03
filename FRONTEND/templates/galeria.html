@@ -15,7 +15,7 @@
         <div class="gallery-item {{ mascota['estado'] }}">
           <div class="img_box">
             {% if mascota.get('foto') %}
-              <img src="data:image/jpeg;base64,{{ mascota['foto'] }}" alt="Imagen de {{ mascota['nombre'] }}">
+              <img src="data:image/jpg;base64,{{ mascota['foto'] }}" alt="Imagen de {{ mascota['nombre'] }}">
             {% else %}
               <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen de {{ mascota['nombre'] }}">
             {% endif %}

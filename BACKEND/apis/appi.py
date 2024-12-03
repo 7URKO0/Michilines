@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, redirect, session
 from flask_bcrypt import Bcrypt  # Solo Flask-Bcrypt
 import pymysql.cursors
 import base64
+from pymysql.cursors import DictCursor
 import requests
 from flask_cors import CORS
 
@@ -34,76 +35,58 @@ def get_db_connection():
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Mascotas---
+""" CAMBIOS """
 @app.route('/mascotas', methods=['POST'])
 def agregar_mascota():
     if 'id_usuarios' not in session:
         return jsonify({"auth": False, "message": "Usuario no autenticado"}), 401
 
     try:
+        # Datos generales del formulario
         id_usuarios = session['id_usuarios']
         nombre = request.form.get('nombre')
         tipo = request.form.get('tipo')
         estado = request.form.get('estado')
         descripcion = request.form.get('descripcion')
         zona = request.form.get('zona', 'No especificada')
+
+        # Coordenadas del formulario
         latitud = request.form.get('latitud')
         longitud = request.form.get('longitud')
 
-        # Validar que las coordenadas estén presentes
+        # Validar coordenadas
         if not latitud or not longitud:
-            return jsonify({"message": "Coordenadas no proporcionadas"}), 400
+            return jsonify({"message": "Por favor selecciona una ubicación en el mapa."}), 400
+
         # Verificar archivo recibido
         foto = request.files.get('foto')
         if foto:
-            print(f"Archivo recibido: {foto.filename}")
             foto_bytes = foto.read()
-            print(f"Tamaño del archivo recibido: {len(foto_bytes)} bytes")
             foto_base64 = base64.b64encode(foto_bytes).decode('utf-8')
         else:
-            print("No se recibió archivo de foto")
             foto_base64 = None
 
-        if not all([nombre, tipo, estado, descripcion]):
+        # Validar campos obligatorios
+        if not all([nombre, tipo, estado, descripcion, latitud, longitud]):
             return jsonify({"message": "Faltan datos obligatorios"}), 400
-        
-
 
         # Guardar en base de datos
         query = """
-            INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+            INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, latitud, longitud, fecha_publicacion)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
         """
-        valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona)
+        valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona, latitud, longitud)
         
         connection = get_db_connection()
         with connection.cursor() as cursor:
             cursor.execute(query, valores)
-
-            # Insertar coordenada en la tabla 'coordenadas'
-            coordenadas_query = """
-                INSERT INTO coordenadas (latitud, longitud)
-                VALUES (%s, %s)
-            """
-            coordenadas_valores = (latitud, longitud)
-            cursor.execute(coordenadas_query, coordenadas_valores)
-
-            # Obtener el ID de la coordenada insertada
-            id_coordenada = cursor.lastrowid
-
-            # Insertar mascota en la tabla 'mascotas' incluyendo el ID de coordenada
-            query = """
-                INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion, id_coordenada)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), %s)
-            """
-            valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona, id_coordenada)
-            cursor.execute(query, valores)
-
             connection.commit()
 
         return jsonify({"message": "Mascota publicada exitosamente"}), 201
     except Exception as e:
         print(f"Error en agregar_mascota: {str(e)}")
         return jsonify({"message": "Error al procesar la solicitud"}), 500
+
 
 
 
@@ -132,37 +115,84 @@ def eliminar_mascota(id):
 
 
 
-
+""" BIEN """
 @app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
-    #Esto realiza una union entre la tabla mascotas(m) y la tabla coordenadas(c), usando el campo id_coordenada de la tabla mascotas para obtener las coordenadas de cada mascota.
-    query = """
-        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
-        FROM mascotas m
-        JOIN coordenadas c ON m.id_coordenada = c.id_coordenada;
-    """
-    
+    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas;"
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
             cursor.execute(query)
             resultado = cursor.fetchall()
 
-            for mascota in resultado:
-                if mascota.get('foto'):
-                    mascota['foto'] = base64.b64encode(mascota['foto']).decode('utf-8')
-                else:
-                    mascota['foto'] = None  # Si no hay imagen, deja `None`
+            mascotas = []
+            for row in resultado:
+                mascota = {
+                    'id': row['id'],
+                    'nombre': row['nombre'],
+                    'tipo': row['tipo'],
+                    'estado': row['estado'],
+                    'descripcion': row['descripcion'],
+                    'zona': row['zona'],
+                    'foto': row['foto']  # La foto ya está en base64
+                }
+                mascotas.append(mascota)
 
-            return jsonify(resultado), 200
+            return jsonify(mascotas), 200
     except Exception as e:
         print(f"Error en obtener_mascotas: {e}")
         return jsonify({'message': f'Error al obtener mascotas: {str(e)}'}), 500
     finally:
         connection.close()
 
+
+
+""" BIEN """
+@app.route('/mascotas/<int:id>', methods=['GET'])
+def obtener_perfil_mascota(id):
+    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto, latitud, longitud FROM mascotas WHERE id = %s;"
+    try:
+        connection = get_db_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                # Verificar y manejar el campo foto correctamente
+                if resultado['foto']:
+                    if isinstance(resultado['foto'], bytes):  # Si es binario, codificar a Base64
+                        foto = base64.b64encode(resultado['foto']).decode('utf-8')
+                    else:
+                        foto = resultado['foto']  # Si ya es un string, asumir que es Base64
+                else:
+                    foto = None
+                latitud = float(resultado['latitud']) if resultado['latitud'] else None
+                longitud = float(resultado['longitud']) if resultado['longitud'] else None
+                mascota = {
+                    "id": resultado['id'],
+                    "nombre": resultado['nombre'],
+                    "tipo": resultado['tipo'],
+                    "estado": resultado['estado'],
+                    "descripcion": resultado['descripcion'],
+                    "zona": resultado['zona'],
+                    "foto": foto,
+                    "latitud": latitud,  # Incluye latitud
+                    "longitud": longitud # Incluye longitud
+                }
+                return jsonify(mascota), 200
+            else:
+                return jsonify({'message': 'Mascota no encontrada'}), 404
+    except Exception as e:
+        print(f"Error en obtener_perfil_mascota: {e}")
+        return jsonify({'message': f'Error al obtener perfil de la mascota: {str(e)}'}), 500
+    finally:
+        connection.close()
+
+
+
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Comentarios ---
+""" BIEN """
 @app.route('/mascotas/<int:id>/comentarios', methods=['GET'])
 def obtener_comentarios(id):
     query = """
@@ -183,7 +213,7 @@ def obtener_comentarios(id):
         return jsonify({'message': f'Error al obtener comentarios: {str(e)}'}), 500
     finally:
         connection.close()
-
+""" BIEN """
 @app.route('/comentarios', methods=['POST'])
 def agregar_comentario():
     nuevo_comentario = request.get_json()
@@ -208,35 +238,11 @@ def agregar_comentario():
     finally:
         connection.close()
 
+    
 
-@app.route('/mascotas/<int:id>', methods=['GET'])
-def obtener_perfil_mascota(id):
-    query = """
-        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
-        FROM mascotas m
-        JOIN coordenadas c ON m.id_coordenada = c.id_coordenada
-        WHERE m.id = %s;
-    """
-    try:
-        connection = get_db_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(query, (id,))
-            resultado = cursor.fetchone()
-
-            if resultado:
-                if resultado.get('foto'):
-                    resultado['foto'] = base64.b64encode(resultado['foto']).decode('utf-8')
-                return jsonify(resultado), 200
-            else:
-                return jsonify({'message': 'Mascota no encontrada'}), 404
-    except Exception as e:
-        print(f"Error en obtener_perfil_mascota: {e}")
-        return jsonify({'message': f'Error al obtener perfil de la mascota: {str(e)}'}), 500
-    finally:
-        connection.close()
-        
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Usuarios ---
+""" BIEN """
 @app.route('/usuarios', methods=['POST'])
 def registrar_usuario():
     data = request.form.to_dict()  # Captura datos del formulario en formato clave-valor
@@ -292,6 +298,7 @@ def registrar_usuario():
             except Exception as e:
                 print(f"Error al cerrar la conexión: {e}")
 
+""" BIEN """
 @app.route('/usuarios/login', methods=['POST'])
 def login_usuario():
     try:
@@ -319,30 +326,14 @@ def login_usuario():
         return jsonify({'auth': False, 'message': f'Error al iniciar sesión: {str(e)}'}), 500
     finally:
         connection.close()
-    
+""" BIEN """
 @app.route('/usuarios/logout', methods=['POST'])
 def logout_usuario():
     session.clear()  # Limpiar todas las variables de sesión
     return redirect('http://127.0.0.1:3609/login')
 
 
-@app.route('/mascotas/<int:id>/foto', methods=['GET'])
-def obtener_foto(id):
-    try:
-        connection = get_db_connection()
-        with connection.cursor() as cursor:
-            query = "SELECT foto FROM mascotas WHERE id = %s"
-            cursor.execute(query, (id,))
-            resultado = cursor.fetchone()
-            if resultado and resultado['foto']:
-                with open(f"foto_{id}.jpg", "wb") as f:
-                    f.write(resultado['foto'])
-                return send_file(f"foto_{id}.jpg", mimetype='image/jpeg')
-            else:
-                return jsonify({"message": "Foto no encontrada"}), 404
-    except Exception as e:
-        return jsonify({"message": f"Error al obtener foto: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
-   app.run("127.0.0.1",debug=True, port=5000)
+   app.run("127.0.0.1",debug=True, port=5001)

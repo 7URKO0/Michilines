@@ -9,7 +9,7 @@
 <section class="publicar">
     <div class="main_content">
         <div class="contenedor">
-            <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="http://127.0.0.1:5000/mascotas">
+            <form id="formularioMascotaPerdida" enctype="multipart/form-data" method="POST" action="http://127.0.0.1:5001/mascotas">
                 <label for="nombreMascota">Nombre:</label>
                 <input type="text" id="nombreMascota" name="nombre" placeholder="Nombre de la mascota" required>
             
@@ -35,17 +35,16 @@
             
                 <label for="zona">Zona:</label>
                 <input type="text" id="zona" name="zona" placeholder="Zona donde se perdió">
-
+                
                 <div id="map"></div>
                 <p id="coordinates">Latitud: --, Longitud: --</p>
-            
+                
                 <!-- Campo oculto para el mapa -->
-                <input type="hidden" id="latitud" name="latitud">
-                <input type="hidden" id="longitud" name="longitud">
+                <input type="text" id="latitud" name="latitud">
+                <input type="text" id="longitud" name="longitud">
             
                 <button type="submit">Publicar</button>
             </form>
-            <p id="status"></p>
         </div>
     </div>
 </section>
