@@ -146,3 +146,8 @@ p {
     color: #333;
     margin-bottom: 1rem;
 }
+#map {
+    width: 100%; /* Usar todo el ancho disponible */
+    height: 400px; /* Altura fija para que el mapa sea visible */
+    border-radius: 8px; /* Opcional: Estilo */
+}

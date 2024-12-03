@@ -61,7 +61,7 @@ def insertar_mascotas():
 
     query = """
         INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion)
-        VALUES (%s, %s, %s, %s, %s, FROM_BASE64(%s), %s, NOW())
+        VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
     """
 
     try:

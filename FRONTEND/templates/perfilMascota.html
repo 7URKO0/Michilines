@@ -14,12 +14,13 @@
         <!-- Información de la mascota -->
         <div class="perfil-contenedor">
             <div class="imagen">
-                {% if mascota.foto %}
-                    <img src="data:image/jpeg;base64,{{ mascota.foto }}" alt="Imagen de {{ mascota.nombre }}">
+                {% if mascota.get('foto') %}
+                    <img src="data:image/jpg;base64,{{ mascota.get('foto') }}" alt="Imagen de {{ mascota['nombre'] }}">
                 {% else %}
                     <img src="{{ url_for('static', filename='imagenes/placeholder.jpg') }}" alt="Imagen no disponible">
                 {% endif %}
             </div>
+            
             <div class="informacion">
                 <h1>{{ mascota.nombre }}</h1>
                 <p>{{ mascota.descripcion }}</p>

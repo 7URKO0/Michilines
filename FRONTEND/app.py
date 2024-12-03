@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
 from flask_cors import CORS
+from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
 app.secret_key = 'clave-super-secreta'  # Misma clave que en el backend
@@ -56,7 +57,7 @@ def integrantes():
 @app.route('/galeria', methods=['GET'])
 def galeria():
     try:
-        response = requests.get('http://127.0.0.1:5000/mascotas')
+        response = requests.get('http://127.0.0.1:5001/mascotas')
         if response.status_code == 200:
             mascotas = response.json()
             return render_template('galeria.html', mascotas=mascotas)
@@ -69,27 +70,30 @@ def galeria():
         print(f"Error en galeria: {str(e)}")
         return render_template('galeria.html', mascotas=[], error="No se pudo conectar con el backend.")
 
-
-
-
-
 @app.route('/perfil/<int:id>', methods=['GET', 'POST'])
 def perfilMascota(id):
     try:
         print("Sesión actual:", dict(session))
 
+        # Verifica si el usuario está autenticado
         if 'id_usuarios' not in session:
             return redirect(url_for('iniciarSesion'))
 
-        # Obtener datos de la mascota
-        response_mascota = requests.get(f'http://127.0.0.1:5000/mascotas/{id}')
+        # Obtener datos de la mascota (incluye foto en Base64 y coordenadas)
+        response_mascota = requests.get(f'http://127.0.0.1:5001/mascotas/{id}')
         if response_mascota.status_code == 200:
             mascota = response_mascota.json()
+
+            # Validar que la mascota tenga coordenadas válidas
+            if not mascota.get('latitud') or not mascota.get('longitud'):
+                print(f"Error: Mascota con ID {id} no tiene coordenadas válidas.")
+                mascota['latitud'] = None
+                mascota['longitud'] = None
         else:
             return render_template("404.html"), 404
 
         # Obtener comentarios de la mascota
-        response_comentarios = requests.get(f'http://127.0.0.1:5000/mascotas/{id}/comentarios')
+        response_comentarios = requests.get(f'http://127.0.0.1:5001/mascotas/{id}/comentarios')
         comentarios = response_comentarios.json() if response_comentarios.status_code == 200 else []
 
         # Manejar envío de nuevos comentarios
@@ -108,7 +112,7 @@ def perfilMascota(id):
                 "id_usuario": session.get('id_usuarios', None),
                 "texto": comentario_texto
             }
-            response_post = requests.post('http://127.0.0.1:5000/comentarios', json=nuevo_comentario)
+            response_post = requests.post('http://127.0.0.1:5001/comentarios', json=nuevo_comentario)
             if response_post.status_code == 201:
                 return redirect(url_for('perfilMascota', id=id))
             else:
@@ -119,6 +123,7 @@ def perfilMascota(id):
                                        id=id, 
                                        error=error)
 
+        # Renderizar el template con los datos de la mascota, incluyendo coordenadas
         return render_template("perfilMascota.html", 
                                mascota=mascota, 
                                comentarios=comentarios, 
@@ -127,10 +132,6 @@ def perfilMascota(id):
     except Exception as e:
         print(f"Error en perfilMascota: {str(e)}")
         return f"Error al cargar el perfil de la mascota: {str(e)}", 500
-
-
-
-
 
 
 

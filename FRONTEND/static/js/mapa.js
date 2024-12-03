@@ -57,22 +57,7 @@ map.on('click', function (e) {
 });
 
 
-// Manejo del envío del formulario
-var form = document.getElementById('location-form');
-form.addEventListener('submit', function (e) {
-    e.preventDefault(); // Evitar recarga de la página
 
-    if (selectedCoordinates) {
-        // Mostrar mensaje de éxito
-        statusDisplay.innerText = `Ubicación enviada: Latitud ${selectedCoordinates.lat.toFixed(6)}, Longitud ${selectedCoordinates.lng.toFixed(6)}`;
-        
-        // Aquí puedes realizar la lógica de envío de datos al servidor (fetch o similar)
-        console.log('Enviando datos:', selectedCoordinates);
-    } else {
-        // Mostrar advertencia si no se seleccionó una ubicación
-        statusDisplay.innerText = 'Por favor, selecciona una ubicación antes de enviar.';
-    }
-});
 
 document.getElementById("formularioMascotaPerdida").addEventListener("submit", function (e) {
     const latitud = document.getElementById("latitud").value;
