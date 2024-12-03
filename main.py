@@ -41,51 +41,6 @@ class MyRoot(BoxLayout):
         if not os.path.exists('assets/images'):
             os.makedirs('assets/images')
 
-    def show_file_chooser(self):
-        try:
-            self.ensure_directory()
-            # Filtrar solo archivos de imagen
-            filters = [("Image files", "*.jpg", "*.jpeg", "*.png", "*.gif")]
-            filechooser.open_file(
-                on_selection=self.selected_image,
-                filters=filters,
-                multiple=False
-            )
-        except Exception as e:
-            print(f"Error al abrir selector de archivos: {e}")
-
-    def selected_image(self, selection):
-        try:
-            if selection and os.path.exists(selection[0]):
-                # Crear una copia de la imagen en assets/images
-                filename = os.path.basename(selection[0])
-                destination = f'assets/images/{filename}'
-                shutil.copy2(selection[0], destination)
-                
-                # Actualizar preview
-                self.ids.preview_image.source = destination
-                self.selected_image_path = destination
-            else:
-                print("No se seleccionó ningún archivo o el archivo no existe.")
-        except Exception as e:
-            print(f"Error al seleccionar imagen: {e}")
-
-    def submit_form(self):
-        # Get form data
-        imagen = getattr(self, 'selected_image_path', 'assets/images/pet_placeholder.jpg')
-        self.add_pet_to_gallery(
-            self.ids.nombre_mascota.text,
-            self.ids.edad_mascota.text,
-            self.ids.tipo_mascota.text,
-            self.ids.ubicacion.text,
-            self.ids.estado.text,
-            self.ids.descripcion.text,
-            imagen
-        )
-        
-        # Clear form and return to main screen
-        self.goto_main()
-
     def add_pet_to_gallery(self, nombre, edad, tipo, ubicacion, estado, descripcion, imagen='assets/images/pet_placeholder.jpg'):
         pet_card = BoxLayout(orientation='vertical', size_hint_y=None, height=400, padding=10, spacing=5)
         pet_card.canvas.before.add(Color(0.9, 0.9, 0.9, 1))
