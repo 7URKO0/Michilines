@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 import requests
 from flask_cors import CORS
+from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
 app.secret_key = 'clave-super-secreta'  # Misma clave que en el backend
@@ -74,13 +75,20 @@ def perfilMascota(id):
     try:
         print("Sesión actual:", dict(session))
 
+        # Verifica si el usuario está autenticado
         if 'id_usuarios' not in session:
             return redirect(url_for('iniciarSesion'))
 
-        # Obtener datos de la mascota (incluye foto en Base64)
+        # Obtener datos de la mascota (incluye foto en Base64 y coordenadas)
         response_mascota = requests.get(f'http://127.0.0.1:5001/mascotas/{id}')
         if response_mascota.status_code == 200:
             mascota = response_mascota.json()
+
+            # Validar que la mascota tenga coordenadas válidas
+            if not mascota.get('latitud') or not mascota.get('longitud'):
+                print(f"Error: Mascota con ID {id} no tiene coordenadas válidas.")
+                mascota['latitud'] = None
+                mascota['longitud'] = None
         else:
             return render_template("404.html"), 404
 
@@ -115,6 +123,7 @@ def perfilMascota(id):
                                        id=id, 
                                        error=error)
 
+        # Renderizar el template con los datos de la mascota, incluyendo coordenadas
         return render_template("perfilMascota.html", 
                                mascota=mascota, 
                                comentarios=comentarios, 
@@ -123,6 +132,7 @@ def perfilMascota(id):
     except Exception as e:
         print(f"Error en perfilMascota: {str(e)}")
         return f"Error al cargar el perfil de la mascota: {str(e)}", 500
+
 
 
 # RUTA: Publicar una mascota perdida

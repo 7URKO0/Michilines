@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, redirect, session
 from flask_bcrypt import Bcrypt  # Solo Flask-Bcrypt
 import pymysql.cursors
 import base64
+from pymysql.cursors import DictCursor
 import requests
 from flask_cors import CORS
 
@@ -34,12 +35,14 @@ def get_db_connection():
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Mascotas---
+""" CAMBIOS """
 @app.route('/mascotas', methods=['POST'])
 def agregar_mascota():
     if 'id_usuarios' not in session:
         return jsonify({"auth": False, "message": "Usuario no autenticado"}), 401
 
     try:
+        # Datos generales del formulario
         id_usuarios = session['id_usuarios']
         nombre = request.form.get('nombre')
         tipo = request.form.get('tipo')
@@ -47,26 +50,32 @@ def agregar_mascota():
         descripcion = request.form.get('descripcion')
         zona = request.form.get('zona', 'No especificada')
 
+        # Coordenadas del formulario
+        latitud = request.form.get('latitud')
+        longitud = request.form.get('longitud')
+
+        # Validar coordenadas
+        if not latitud or not longitud:
+            return jsonify({"message": "Por favor selecciona una ubicación en el mapa."}), 400
+
         # Verificar archivo recibido
         foto = request.files.get('foto')
         if foto:
-            print(f"Archivo recibido: {foto.filename}")
             foto_bytes = foto.read()
-            print(f"Tamaño del archivo recibido: {len(foto_bytes)} bytes")
             foto_base64 = base64.b64encode(foto_bytes).decode('utf-8')
         else:
-            print("No se recibió archivo de foto")
             foto_base64 = None
 
-        if not all([nombre, tipo, estado, descripcion]):
+        # Validar campos obligatorios
+        if not all([nombre, tipo, estado, descripcion, latitud, longitud]):
             return jsonify({"message": "Faltan datos obligatorios"}), 400
 
         # Guardar en base de datos
         query = """
-            INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, fecha_publicacion)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+            INSERT INTO mascotas (id_usuarios, nombre, tipo, estado, descripcion, foto, zona, latitud, longitud, fecha_publicacion)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
         """
-        valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona)
+        valores = (id_usuarios, nombre, tipo, estado, descripcion, foto_base64, zona, latitud, longitud)
         
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -77,6 +86,7 @@ def agregar_mascota():
     except Exception as e:
         print(f"Error en agregar_mascota: {str(e)}")
         return jsonify({"message": "Error al procesar la solicitud"}), 500
+
 
 
 
@@ -105,7 +115,7 @@ def eliminar_mascota(id):
 
 
 
-
+""" BIEN """
 @app.route('/mascotas', methods=['GET'])
 def obtener_mascotas():
     query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas;"
@@ -137,11 +147,10 @@ def obtener_mascotas():
 
 
 
-import base64
-
+""" BIEN """
 @app.route('/mascotas/<int:id>', methods=['GET'])
 def obtener_perfil_mascota(id):
-    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto FROM mascotas WHERE id = %s;"
+    query = "SELECT id, nombre, tipo, estado, descripcion, zona, foto, latitud, longitud FROM mascotas WHERE id = %s;"
     try:
         connection = get_db_connection()
         with connection.cursor() as cursor:
@@ -157,7 +166,8 @@ def obtener_perfil_mascota(id):
                         foto = resultado['foto']  # Si ya es un string, asumir que es Base64
                 else:
                     foto = None
-
+                latitud = float(resultado['latitud']) if resultado['latitud'] else None
+                longitud = float(resultado['longitud']) if resultado['longitud'] else None
                 mascota = {
                     "id": resultado['id'],
                     "nombre": resultado['nombre'],
@@ -165,7 +175,9 @@ def obtener_perfil_mascota(id):
                     "estado": resultado['estado'],
                     "descripcion": resultado['descripcion'],
                     "zona": resultado['zona'],
-                    "foto": foto
+                    "foto": foto,
+                    "latitud": latitud,  # Incluye latitud
+                    "longitud": longitud # Incluye longitud
                 }
                 return jsonify(mascota), 200
             else:
@@ -180,6 +192,7 @@ def obtener_perfil_mascota(id):
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Comentarios ---
+""" BIEN """
 @app.route('/mascotas/<int:id>/comentarios', methods=['GET'])
 def obtener_comentarios(id):
     query = """
@@ -200,7 +213,7 @@ def obtener_comentarios(id):
         return jsonify({'message': f'Error al obtener comentarios: {str(e)}'}), 500
     finally:
         connection.close()
-
+""" BIEN """
 @app.route('/comentarios', methods=['POST'])
 def agregar_comentario():
     nuevo_comentario = request.get_json()
@@ -229,6 +242,7 @@ def agregar_comentario():
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # --- Rutas para Usuarios ---
+""" BIEN """
 @app.route('/usuarios', methods=['POST'])
 def registrar_usuario():
     data = request.form.to_dict()  # Captura datos del formulario en formato clave-valor
@@ -284,6 +298,7 @@ def registrar_usuario():
             except Exception as e:
                 print(f"Error al cerrar la conexión: {e}")
 
+""" BIEN """
 @app.route('/usuarios/login', methods=['POST'])
 def login_usuario():
     try:
@@ -311,7 +326,7 @@ def login_usuario():
         return jsonify({'auth': False, 'message': f'Error al iniciar sesión: {str(e)}'}), 500
     finally:
         connection.close()
-    
+""" BIEN """
 @app.route('/usuarios/logout', methods=['POST'])
 def logout_usuario():
     session.clear()  # Limpiar todas las variables de sesión

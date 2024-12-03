@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS mascotas (
     foto LONGTEXT,
     zona VARCHAR(255),
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    latitud DECIMAL(10, 8) NOT NULL,
+    longitud DECIMAL(11, 8) NOT NULL,
     FOREIGN KEY (id_usuarios) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
 
@@ -36,16 +38,6 @@ CREATE TABLE IF NOT EXISTS comentarios (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuarios) ON DELETE CASCADE
 );
 
-
--- Crear la tabla coordenadas
-CREATE TABLE IF NOT EXISTS coordenadas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(200) NOT NULL,
-    direccion VARCHAR(200) NOT NULL,
-    latitud DECIMAL(10, 8) NOT NULL,
-    longitud DECIMAL(11, 8) NOT NULL,
-    especie VARCHAR(50) NOT NULL
-);
 
 -- Insertar datos en la tabla usuarios
 INSERT INTO usuarios (nombre, apellido, correo, contrasni) 
@@ -61,9 +53,10 @@ VALUES
 (2, 'Tomi', 'Perro', 'Perdida', 'Perro labrador de color amarillo.', 'Villa Urquiza', NULL), 
 (3, 'Cheems', 'Perro', 'Encontrada', 'Perro encontrado cerca de la estación.', 'Palermo', 'Cheems estaba cerca de plaza Italia.'); */
 
--- Insertar datos en la tabla coordenadas
+/* -- Insertar datos en la tabla coordenadas
 INSERT INTO coordenadas (nombre, direccion, latitud, longitud, especie)
 VALUES 
 ('domi', 'Av. Paseo Colón 250, C1054', -34.610631, -58.369250, 'gato'),
 ('fer', 'Av. Rivadavia 717, C1002AAF', -34.608131, -58.376856, 'gato'),
 ('yai', 'Jeanette Campbell 4581', -34.675994, -58.455311, 'perro');
+ */
