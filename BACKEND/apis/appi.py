@@ -137,9 +137,8 @@ def eliminar_mascota(id):
 def obtener_mascotas():
     #Esto realiza una union entre la tabla mascotas(m) y la tabla coordenadas(c), usando el campo id_coordenada de la tabla mascotas para obtener las coordenadas de cada mascota.
     query = """
-        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
-        FROM mascotas m
-        JOIN coordenadas c ON m.id_coordenada = c.id_coordenada;
+        SELECT id, nombre, tipo, estado, descripcion, zona, foto
+        FROM mascotas 
     """
     
     try:
@@ -212,7 +211,7 @@ def agregar_comentario():
 @app.route('/mascotas/<int:id>', methods=['GET'])
 def obtener_perfil_mascota(id):
     query = """
-        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, c.latitud, c.longitud
+        SELECT m.id, m.nombre, m.tipo, m.estado, m.descripcion, m.zona, m.foto, m.id_coordenada, c.latitud, c.longitud
         FROM mascotas m
         JOIN coordenadas c ON m.id_coordenada = c.id_coordenada
         WHERE m.id = %s;
